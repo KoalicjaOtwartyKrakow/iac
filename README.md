@@ -17,7 +17,7 @@ There is no hook to do it right now so you need to perform this manually.
 
 ## How to run the code
 
-Go to /env/dev and perform:
+Go to env/dev and perform:
 - terraform init
 - terraform plan
 - terraform apply

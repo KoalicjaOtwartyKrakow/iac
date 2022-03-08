@@ -1,6 +1,6 @@
-variable "project" {
+variable "name" {
   type        = string
-  description = "Project name"
+  description = "Name of the logbucket"
   nullable    = false
 }
 

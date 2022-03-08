@@ -2,17 +2,13 @@ locals {
   frontend_bucket_name = "${var.project}-codebuild-fronted-logs"
 }
 
-resource "google_storage_bucket" "log-bucket" {
-  name = local.frontend_bucket_name
-  location = var.location
-  uniform_bucket_level_access = true
+moved {
+  from = google_storage_bucket.log-bucket
+  to   = module.fronted_log_bucket.google_storage_bucket.log-bucket
+}
 
-  lifecycle_rule {
-    condition {
-      age = 7
-    }
-    action {
-      type = "Delete"
-    }
-  }
+module "fronted_log_bucket" {
+  source   = "./logbucket"
+  name     = local.frontend_bucket_name
+  location = var.location
 }

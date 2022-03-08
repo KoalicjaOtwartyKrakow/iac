@@ -1,7 +1,6 @@
 terraform {
   backend "gcs" {
     bucket = "salamlab-development-terraform-state"
-    prefix = "development.tfstate"
   }
 
   required_providers {
@@ -19,7 +18,7 @@ provider "google" {
 }
 
 module "main" {
-  source      = "../../main"
-  project     = "salamlab-development"
-  location  = "europe-central2"
+  source   = "../../main"
+  project  = "salamlab-development"
+  location = "europe-central2"
 }

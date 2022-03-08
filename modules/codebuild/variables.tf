@@ -5,7 +5,7 @@ variable "project" {
 }
 
 variable "location" {
-  type = string
+  type        = string
   description = "Region or multiregion location"
-  nullable = false
+  nullable    = false
 }
