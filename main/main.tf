@@ -1,4 +1,5 @@
-module "network" {
-  source      = "../modules/network"
-  environment = var.environment
+module "codebuild" {
+  source = "../modules/codebuild"
+  project = var.project
+  location = var.location
 }

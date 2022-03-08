@@ -16,10 +16,10 @@ provider "google" {
   credentials = file("salamlab-development.json")
   project     = "salamlab-development"
   region      = "europe-central2"
-  zone        = "europe-central2-a"
 }
 
 module "main" {
   source      = "../../main"
-  environment = "dev"
+  project     = "salamlab-development"
+  location  = "europe-central2"
 }
