@@ -1,6 +1,6 @@
-# Folder structure
+# Architecture
 
-This project follow [Main-module approach](https://dev.to/piotrgwiazda/main-module-approach-for-handling-multiple-environments-in-terraform-1oln)
+Please check details in [KOK](https://github.com/KoalicjaOtwartyKrakow/kokon)
 
 # Terraform
 
@@ -8,6 +8,14 @@ This project follow [Main-module approach](https://dev.to/piotrgwiazda/main-modu
 
 The required version of terraform is ~>1.1.2
 Code is tested against terraform is 1.1.6 - please use it
+
+## Setup
+
+Visit [Terraform setup gcp](https://learn.hashicorp.com/tutorials/terraform/google-cloud-platform-build?in=terraform/gcp-get-started#set-up-gcp)
+
+# Folder structure
+
+This project follow [Main-module approach](https://dev.to/piotrgwiazda/main-module-approach-for-handling-multiple-environments-in-terraform-1oln)
 
 ## Code formating
 

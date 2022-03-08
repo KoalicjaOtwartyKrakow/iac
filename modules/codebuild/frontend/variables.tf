@@ -26,3 +26,10 @@ variable "frontend_github_repo_branch" {
   description = "Name of the branch to build from frontend repo"
   nullable    = false
 }
+
+variable "frontend_build_bucket_url" {
+  type        = string
+  description = "URL (in gs format) to frontend bucket"
+  nullable    = false
+}
+

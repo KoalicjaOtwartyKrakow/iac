@@ -18,7 +18,11 @@ provider "google" {
 }
 
 module "main" {
-  source   = "../../main"
-  project  = "salamlab-development"
-  location = "europe-central2"
+  source      = "../../main"
+  gcp_project = "salamlab-development"
+  region      = "europe-central2"
+
+  github_repo_owner           = "KoalicjaOtwartyKrakow"
+  frontend_github_repo_name   = "frontend"
+  frontend_github_repo_branch = "^main$"
 }
