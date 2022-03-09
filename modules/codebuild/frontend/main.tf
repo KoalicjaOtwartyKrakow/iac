@@ -5,8 +5,7 @@ locals {
 }
 
 resource "google_cloudbuild_trigger" "build-trigger" {
-  name     = local.frontend_codebuild_name
-  disabled = true #TODO remove after coding finishing
+  name = local.frontend_codebuild_name
 
   github {
     owner = var.github_repo_owner
@@ -17,20 +16,13 @@ resource "google_cloudbuild_trigger" "build-trigger" {
   }
 
   build {
-    source {
-      repo_source {
-        repo_name   = var.frontend_github_repo_name
-        branch_name = var.frontend_github_repo_branch
-      }
-    }
-
     step {
-      name       = "node:14"
+      name       = "node:14-alpine"
       entrypoint = "yarn"
       args       = ["install"]
     }
     step {
-      name       = "node:14"
+      name       = "node:14-alpine"
       entrypoint = "yarn"
       args       = ["run", "build"]
       env = [
@@ -39,13 +31,22 @@ resource "google_cloudbuild_trigger" "build-trigger" {
         "REACT_APP_KOKON_API_USE_MOCKS=false"
       ]
     }
+    # upload dummy file if bucket is empty. See https://github.com/GoogleCloudPlatform/gsutil/issues/417 for more explanation
     step {
-      name = "gcr.io/google.com/cloudsdktool/cloud-sdk"
+      name = "alpine:3.15.0"
+      args = ["touch", "dummy.txt"]
+    }
+    step {
+      name = "gcr.io/google.com/cloudsdktool/cloud-sdk:376.0.0-alpine"
+      args = ["gsutil", "cp", "dummy.txt", "${var.frontend_build_bucket_url}"]
+    }
+    step {
+      name = "gcr.io/google.com/cloudsdktool/cloud-sdk:376.0.0-alpine"
       args = ["gsutil", "rm", "-rf", "${var.frontend_build_bucket_url}/*"]
     }
     step {
-      name = "gcr.io/google.com/cloudsdktool/cloud-sdk"
-      args = ["gsutil", "cp", "-r", "build/*", "${var.frontend_build_bucket_url}/*"]
+      name = "gcr.io/google.com/cloudsdktool/cloud-sdk:376.0.0-alpine"
+      args = ["gsutil", "cp", "-r", "build/*", "${var.frontend_build_bucket_url}"]
     }
 
     logs_bucket = module.fronted_log_bucket.url
