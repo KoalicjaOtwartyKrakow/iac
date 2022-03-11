@@ -5,7 +5,6 @@ locals {
 
 resource "google_cloudbuild_trigger" "build-trigger" {
   name            = local.backend_codebuild_name
-  disabled        = true # TODO: waiting for fixing issue with cloud function
   service_account = var.service_account
 
   github {
