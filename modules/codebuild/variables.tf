@@ -27,6 +27,12 @@ variable "frontend_github_repo_branch" {
   nullable    = false
 }
 
+variable "frontend_build_bucket_url" {
+  type        = string
+  description = "URL (in gs format) to frontend bucket"
+  nullable    = false
+}
+
 variable "backend_github_repo_name" {
   type        = string
   description = "Name of the backend repo"
@@ -36,5 +42,11 @@ variable "backend_github_repo_name" {
 variable "backend_github_repo_branch" {
   type        = string
   description = "Name of the branch to build from backend repo"
+  nullable    = false
+}
+
+variable "backend_cloudfunction_name" {
+  type        = string
+  description = "Name of the backend cloudfunction"
   nullable    = false
 }

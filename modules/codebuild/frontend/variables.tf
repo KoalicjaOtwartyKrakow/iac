@@ -9,6 +9,11 @@ variable "region" {
   nullable = false
 }
 
+variable "service_account" {
+  type     = string
+  nullable = false
+}
+
 variable "github_repo_owner" {
   type        = string
   description = "Owner of the repo"

@@ -5,7 +5,8 @@ locals {
 }
 
 resource "google_cloudbuild_trigger" "build-trigger" {
-  name = local.frontend_codebuild_name
+  name            = local.frontend_codebuild_name
+  service_account = var.service_account
 
   github {
     owner = var.github_repo_owner

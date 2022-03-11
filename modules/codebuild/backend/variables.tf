@@ -9,21 +9,14 @@ variable "region" {
   nullable = false
 }
 
+variable "service_account" {
+  type     = string
+  nullable = false
+}
+
 variable "github_repo_owner" {
   type        = string
   description = "Owner of the repo"
-  nullable    = false
-}
-
-variable "frontend_github_repo_name" {
-  type        = string
-  description = "Name of the frontend repo"
-  nullable    = false
-}
-
-variable "frontend_github_repo_branch" {
-  type        = string
-  description = "Name of the branch to build from frontend repo"
   nullable    = false
 }
 
@@ -36,5 +29,11 @@ variable "backend_github_repo_name" {
 variable "backend_github_repo_branch" {
   type        = string
   description = "Name of the branch to build from backend repo"
+  nullable    = false
+}
+
+variable "backend_cloudfunction_name" {
+  type        = string
+  description = "Name of the backend cloudfunction"
   nullable    = false
 }
