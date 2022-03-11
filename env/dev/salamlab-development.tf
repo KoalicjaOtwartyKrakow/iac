@@ -15,6 +15,7 @@ provider "google" {
   project = "salamlab-development"
   region  = "europe-central2"
 
+  # Requires the `Service Account Token Creator` role on people that need to run terraform.
   impersonate_service_account = "terraform-development@salamlab-development.iam.gserviceaccount.com"
 }
 
