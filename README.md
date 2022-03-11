@@ -9,17 +9,11 @@ Please check details in [KOK](https://github.com/KoalicjaOtwartyKrakow/kokon)
 The required version of terraform is ~>1.1.2
 Code is tested against terraform is 1.1.6 - please use it
 
-## Setup
-
-Visit [Terraform setup gcp](https://learn.hashicorp.com/tutorials/terraform/google-cloud-platform-build?in=terraform/gcp-get-started#set-up-gcp)
-
-For key generation use terraform-development@salamlab-development.iam.gserviceaccount.com service account
-
 ## Folder structure
 
-This project follow [Main-module approach](https://dev.to/piotrgwiazda/main-module-approach-for-handling-multiple-environments-in-terraform-1oln)
+This project follows [Main-module approach](https://dev.to/piotrgwiazda/main-module-approach-for-handling-multiple-environments-in-terraform-1oln)
 
-## Code formating
+## Code formatting
 
 Please keep in mind the official format of the code. Or just go to main directory of the repo and run
 ```terraform fmt -recursive```
