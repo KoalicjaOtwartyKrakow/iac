@@ -12,9 +12,10 @@ terraform {
 }
 
 provider "google" {
-  credentials = file("salamlab-development.json")
-  project     = "salamlab-development"
-  region      = "europe-central2"
+  project = "salamlab-development"
+  region  = "europe-central2"
+
+  impersonate_service_account = "terraform-development@salamlab-development.iam.gserviceaccount.com"
 }
 
 module "main" {
