@@ -1,19 +1,24 @@
+locals {
+  cloud_build_roles = [
+    "roles/iam.serviceAccountUser",
+    "roles/logging.logWriter",
+    "roles/storage.admin",
+    "roles/storage.objectAdmin",
+    "roles/cloudfunctions.admin"
+  ]
+}
+
 data "google_project" "project" {}
 
 resource "google_service_account" "cloudbuild_service_account" {
   account_id = "cloud-build-account"
 }
 
-resource "google_project_iam_member" "act_as" {
-  project = data.google_project.project.project_id
-  role    = "roles/iam.serviceAccountUser"
-  member  = "serviceAccount:${google_service_account.cloudbuild_service_account.email}"
-}
-
-resource "google_project_iam_member" "logs_writer" {
-  project = data.google_project.project.project_id
-  role    = "roles/logging.logWriter"
-  member  = "serviceAccount:${google_service_account.cloudbuild_service_account.email}"
+resource "google_project_iam_member" "roles" {
+  for_each = toset(local.cloud_build_roles)
+  project  = data.google_project.project.project_id
+  role     = each.value
+  member   = "serviceAccount:${google_service_account.cloudbuild_service_account.email}"
 }
 
 module "codebuild_frontend" {
