@@ -28,3 +28,27 @@ module "codebuild" {
   backend_github_repo_branch = var.backend_github_repo_branch
   backend_cloudfunction_name = "add_accommodation"
 }
+
+module "private-services-access" {
+  source = "../modules/private-services-access"
+}
+
+module "db" {
+  source = "../modules/db"
+
+  tier = "db-f1-micro"
+
+  # TODO(https://github.com/KoalicjaOtwartyKrakow/iac/issues/16): potentially set to REGIONAL for prod, pending results
+  #  of the uptime goals discussion.
+  availability_type = "ZONAL"
+
+  retained_backups_count = 7
+
+  # For private IP instance setup, note that the google_sql_database_instance does not actually interpolate values from
+  # google_service_networking_connection. You must explicitly add a depends_on.
+  #
+  # https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/sql_database_instance#private-ip-instance
+  #
+  # In our case we depend on the whole module that wraps private services access.
+  depends_on = [module.private-services-access]
+}
