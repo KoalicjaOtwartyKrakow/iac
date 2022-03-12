@@ -29,22 +29,10 @@ module "codebuild" {
   backend_cloudfunction_name = "add_accommodation"
 }
 
-module "private-services-access" {
-  source = "../modules/private-services-access"
-}
-
 module "db" {
   source = "../modules/db"
 
   tier                   = var.db_tier
   availability_type      = var.db_availability_type
   retained_backups_count = var.db_retained_backups_count
-
-  # For private IP instance setup, note that the google_sql_database_instance does not actually interpolate values from
-  # google_service_networking_connection. You must explicitly add a depends_on.
-  #
-  # https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/sql_database_instance#private-ip-instance
-  #
-  # In our case we depend on the whole module that wraps private services access.
-  depends_on = [module.private-services-access]
 }
