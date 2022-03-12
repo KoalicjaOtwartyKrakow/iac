@@ -4,16 +4,6 @@ module "frontend_www_bucket" {
   gcp_project = var.gcp_project
 }
 
-moved {
-  from = module.codebuild_backend.module.backend_log_bucket.google_storage_bucket.log-bucket
-  to   = module.codebuild.module.codebuild_backend.module.backend_log_bucket.google_storage_bucket.log-bucket
-}
-
-moved {
-  from = module.codebuild_frontend.module.fronted_log_bucket.google_storage_bucket.log-bucket
-  to   = module.codebuild.module.codebuild_frontend.module.fronted_log_bucket.google_storage_bucket.log-bucket
-}
-
 module "codebuild" {
   source      = "../modules/codebuild"
   gcp_project = var.gcp_project
@@ -26,7 +16,6 @@ module "codebuild" {
 
   backend_github_repo_name   = var.backend_github_repo_name
   backend_github_repo_branch = var.backend_github_repo_branch
-  backend_cloudfunction_name = "add_accommodation"
 }
 
 module "private-services-access" {

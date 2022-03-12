@@ -31,9 +31,3 @@ variable "backend_github_repo_branch" {
   description = "Name of the branch to build from backend repo"
   nullable    = false
 }
-
-variable "backend_cloudfunction_name" {
-  type        = string
-  description = "Name of the backend cloudfunction"
-  nullable    = false
-}

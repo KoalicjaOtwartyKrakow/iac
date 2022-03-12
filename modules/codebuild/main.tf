@@ -42,5 +42,4 @@ module "codebuild_backend" {
   github_repo_owner          = var.github_repo_owner
   backend_github_repo_name   = var.backend_github_repo_name
   backend_github_repo_branch = var.backend_github_repo_branch
-  backend_cloudfunction_name = var.backend_cloudfunction_name
 }
