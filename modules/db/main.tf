@@ -1,9 +1,5 @@
-data "google_compute_network" "default" {
-  name = "default"
-}
-
-resource "google_sql_database_instance" "main" {
-  name = "main"
+resource "google_sql_database_instance" "main-v2" {
+  name = "main-v2"
 
   lifecycle {
     prevent_destroy = true
@@ -36,9 +32,17 @@ resource "google_sql_database_instance" "main" {
     }
 
     ip_configuration {
-      ipv4_enabled    = false # No _public_ IP.
-      private_network = data.google_compute_network.default.self_link
-      require_ssl     = true
+      # Access to the public IP is limited to cloud sql proxy, which does IAM based authorization. See the
+      # organization-policies module.
+      #
+      # Why not private IP only? See:
+      # https://medium.com/google-cloud/cloud-sql-with-private-ip-only-the-good-the-bad-and-the-ugly-de4ac23ce98a
+      ipv4_enabled = true
+      require_ssl  = true
+
+      # Do NOT set any `authorized_networks`! The plan is to always access via the cloud sql proxy, as it checks
+      # IAM perms. This will be enforced via `constraints/sql.restrictAuthorizedNetworks` after gcp projects are brought
+      # under the g workspace org.
     }
 
     # Note that cloudsql can have downtime during updates, even when using a HA regional instance. So we really do want
@@ -52,6 +56,10 @@ resource "google_sql_database_instance" "main" {
       day          = 1
       hour         = 1
       update_track = "stable"
+    }
+
+    insights_config {
+      query_insights_enabled = true
     }
   }
 }
