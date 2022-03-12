@@ -38,3 +38,21 @@ variable "backend_github_repo_branch" {
   description = "Name of the branch to build from backend repo"
   nullable    = false
 }
+
+variable "db_tier" {
+  type        = string
+  description = "The machine type to use. Postgres supports only shared-core machine types, and custom machine types such as db-custom-2-13312"
+  nullable    = false
+}
+
+variable "db_availability_type" {
+  type        = string
+  description = "Either ZONAL or REGIONAL"
+  nullable    = false
+}
+
+variable "db_retained_backups_count" {
+  type        = number
+  description = "Number of days to keep backups for"
+  nullable    = false
+}

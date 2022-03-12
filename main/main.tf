@@ -36,13 +36,9 @@ module "private-services-access" {
 module "db" {
   source = "../modules/db"
 
-  tier = "db-f1-micro"
-
-  # TODO(https://github.com/KoalicjaOtwartyKrakow/iac/issues/16): potentially set to REGIONAL for prod, pending results
-  #  of the uptime goals discussion.
-  availability_type = "ZONAL"
-
-  retained_backups_count = 7
+  tier                   = var.db_tier
+  availability_type      = var.db_availability_type
+  retained_backups_count = var.db_retained_backups_count
 
   # For private IP instance setup, note that the google_sql_database_instance does not actually interpolate values from
   # google_service_networking_connection. You must explicitly add a depends_on.
