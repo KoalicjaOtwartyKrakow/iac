@@ -1,3 +1,7 @@
+module "terraform-sops" {
+  source = "../modules/terraform-sops"
+}
+
 module "lb" {
   source               = "../modules/lb"
   frontend_bucket_name = module.frontend_www_bucket.name
@@ -29,4 +33,5 @@ module "db" {
   tier                   = var.db_tier
   availability_type      = var.db_availability_type
   retained_backups_count = var.db_retained_backups_count
+  db_creds_path          = var.db_creds_path
 }

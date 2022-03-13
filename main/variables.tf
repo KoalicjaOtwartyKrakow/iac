@@ -51,6 +51,12 @@ variable "db_availability_type" {
   nullable    = false
 }
 
+variable "db_creds_path" {
+  type        = string
+  description = "Path to sops-encrypted json with db secrets"
+  nullable    = false
+}
+
 variable "db_retained_backups_count" {
   type        = number
   description = "Number of days to keep backups for"

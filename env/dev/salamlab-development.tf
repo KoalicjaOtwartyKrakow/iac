@@ -8,6 +8,11 @@ terraform {
       source  = "hashicorp/google"
       version = "~>4.12.0"
     }
+
+    sops = {
+      source  = "carlpett/sops"
+      version = "~> 0.6.3"
+    }
   }
 }
 
@@ -36,10 +41,9 @@ module "main" {
   #
   # https://cloud.google.com/sql/docs/mysql/instance-settings
   db_tier = "db-f1-micro"
-
   # TODO(https://github.com/KoalicjaOtwartyKrakow/iac/issues/16): potentially set to REGIONAL for prod, pending results
   #  of the uptime goals discussion.
-  db_availability_type = "ZONAL"
-
+  db_availability_type      = "ZONAL"
   db_retained_backups_count = 7
+  db_creds_path             = "apartments-db-creds.enc.json"
 }

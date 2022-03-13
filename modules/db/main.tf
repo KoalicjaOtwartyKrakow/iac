@@ -1,3 +1,12 @@
+terraform {
+  required_providers {
+    sops = {
+      source  = "carlpett/sops"
+      version = "~> 0.6.3"
+    }
+  }
+}
+
 resource "google_sql_database_instance" "main-v2" {
   name = "main-v2"
 
@@ -62,4 +71,39 @@ resource "google_sql_database_instance" "main-v2" {
       query_insights_enabled = true
     }
   }
+}
+
+data "sops_file" "apartments-creds" {
+  source_file = var.db_creds_path
+}
+
+resource "google_sql_database" "apartments" {
+  name     = data.sops_file.apartments-creds.data["db_name"]
+  instance = google_sql_database_instance.main-v2.name
+}
+
+resource "google_sql_user" "apartments" {
+  name     = data.sops_file.apartments-creds.data["db_user"]
+  instance = google_sql_database_instance.main-v2.name
+  password = data.sops_file.apartments-creds.data["db_pass"]
+}
+
+resource "google_secret_manager_secret" "apartments-creds" {
+  # Keys are not sensitive
+  for_each = nonsensitive(data.sops_file.apartments-creds.data)
+
+  secret_id = each.key
+
+  replication {
+    automatic = true
+  }
+}
+
+resource "google_secret_manager_secret_version" "apartments-creds" {
+  # Keys are not sensitive
+  for_each = nonsensitive(data.sops_file.apartments-creds.data)
+
+  secret = google_secret_manager_secret.apartments-creds[each.key].id
+
+  secret_data = each.value
 }
