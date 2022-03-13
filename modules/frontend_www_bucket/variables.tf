@@ -16,3 +16,9 @@ variable "main_page_suffix" {
   default     = "index.html"
   nullable    = false
 }
+
+variable "frontend_creds_path" {
+  type        = string
+  description = "Path to sops-encrypted json with frontend secrets"
+  nullable    = false
+}

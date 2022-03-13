@@ -9,6 +9,12 @@ variable "region" {
   nullable = false
 }
 
+variable "frontend_creds_path" {
+  type        = string
+  description = "Path to sops-encrypted json with frontend secrets"
+  nullable    = false
+}
+
 variable "github_repo_owner" {
   type        = string
   description = "Owner of the repo"

@@ -11,6 +11,8 @@ module "frontend_www_bucket" {
   source      = "../modules/frontend_www_bucket"
   location    = var.region
   gcp_project = var.gcp_project
+
+  frontend_creds_path = var.frontend_creds_path
 }
 
 module "codebuild" {
