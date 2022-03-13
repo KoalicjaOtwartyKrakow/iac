@@ -40,4 +40,8 @@ resource "google_compute_backend_bucket" "frontend-bucket-backend" {
   name        = "frontend-bucket-backend"
   bucket_name = var.frontend_bucket_name
   enable_cdn  = true
+
+  cdn_policy {
+    cache_mode = "USE_ORIGIN_HEADERS"
+  }
 }
