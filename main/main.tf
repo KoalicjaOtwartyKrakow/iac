@@ -1,5 +1,5 @@
 module "lb" {
-  source = "../modules/lb"
+  source               = "../modules/lb"
   frontend_bucket_name = module.frontend_www_bucket.name
 }
 
