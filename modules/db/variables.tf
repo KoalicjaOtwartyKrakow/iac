@@ -15,3 +15,9 @@ variable "retained_backups_count" {
   description = "Number of days to keep backups for"
   nullable    = false
 }
+
+variable "db_creds_path" {
+  type        = string
+  description = "Path to sops-encrypted json with db secrets"
+  nullable    = false
+}

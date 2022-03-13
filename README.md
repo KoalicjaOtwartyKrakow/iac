@@ -33,3 +33,14 @@ to init terraform and apply the code
 
 For dev environment there is no pipeline to upload things. Do it manually.
 For prod - to be defined
+
+## Working with secrets in the repo
+Files that are named `*.enc.` are encrypted using GCP KMS via https://github.com/mozilla/sops 
+
+To create/edit them:
+1. Follow the sops installation steps from their GitHub README.
+2. `gcloud auth application-default login`
+3. To encrypt a file:
+   1. dev: `sops -e -i --gcp-kms projects/salamlab-development/locations/global/keyRings/terraform-sops-keyring/cryptoKeys/terraform-sops-key <path>`
+   2. prod (not setup yet): `sops -e -i --gcp-kms projects/salamlab-production/locations/global/keyRings/terraform-sops-keyring/cryptoKeys/terraform-sops-key <path>`
+4. To edit an encrypted file with `$EDITOR`: `sops <path>`
