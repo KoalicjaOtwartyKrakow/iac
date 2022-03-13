@@ -88,22 +88,8 @@ resource "google_sql_user" "apartments" {
   password = data.sops_file.apartments-creds.data["db_pass"]
 }
 
-resource "google_secret_manager_secret" "apartments-creds" {
-  # Keys are not sensitive
-  for_each = nonsensitive(data.sops_file.apartments-creds.data)
+module "db-creds" {
+  source = "../secrets-from-file"
 
-  secret_id = each.key
-
-  replication {
-    automatic = true
-  }
-}
-
-resource "google_secret_manager_secret_version" "apartments-creds" {
-  # Keys are not sensitive
-  for_each = nonsensitive(data.sops_file.apartments-creds.data)
-
-  secret = google_secret_manager_secret.apartments-creds[each.key].id
-
-  secret_data = each.value
+  creds_path = var.db_creds_path
 }

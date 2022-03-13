@@ -23,3 +23,9 @@ resource "google_storage_default_object_access_control" "public_rule" {
   role   = "READER"
   entity = "allUsers"
 }
+
+module "frontend-creds" {
+  source = "../secrets-from-file"
+
+  creds_path = var.frontend_creds_path
+}

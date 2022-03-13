@@ -1,0 +1,19 @@
+{
+	"fontawesome_token": "ENC[AES256_GCM,data:UZxkcguEmLAFlvj/DWFXNrMLK5qMJqBf/QJPZ00NtgNOd1ic,iv:2ZBPEQfYZ2H5gPg/zuLVlfuTY9VhfX/PEzLpjuoK3Xc=,tag:IU7UTz7Z4BR65xc9v7i7Xw==,type:str]",
+	"sops": {
+		"kms": null,
+		"gcp_kms": [
+			{
+				"resource_id": "projects/salamlab-development/locations/global/keyRings/terraform-sops-keyring/cryptoKeys/terraform-sops-key",
+				"created_at": "2022-03-13T17:49:58Z",
+				"enc": "CiQApmk15n41x3UpomyThuXvPKWoyYWwhM1wrVOyxCMQkbGF/E0SSQDeeIBrB2Ft/VZdS1swXxzykGIpUdVGAtz7VR5aQP2mIWRv4cprKE1BtTm7PW/m1XEX4BBPmuaRrxzxOn8PKYipHUeUOLce9ZQ="
+			}
+		],
+		"azure_kv": null,
+		"lastmodified": "2022-03-13T17:50:20Z",
+		"mac": "ENC[AES256_GCM,data:dcXgZyPIuppJrMN8qiS2XhQGDwNA5PnhYrohckQ1fnVP0rovXq5+yNDZTDK9Oy6+75Cc2rS4MWj984wApUWc1LaCuLyE9HIiLJl0lrQHEg5dg0+Yq0YD5xcoVBFQE4PQ37ttnVUXYfCezVXY+u0mPHpFagZemSupPFZKuaNxVuY=,iv:kd78Eyxdo+gkTUwN0fddGqBXQL1Qtn9R+E+v8wXfrPI=,tag:Z+KTwLOwfDaIKB535Z2kUg==,type:str]",
+		"pgp": null,
+		"unencrypted_suffix": "_unencrypted",
+		"version": "3.5.0"
+	}
+}

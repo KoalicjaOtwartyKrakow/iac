@@ -35,6 +35,8 @@ module "main" {
   backend_github_repo_name    = "backend"
   backend_github_repo_branch  = "^dev$"
 
+  frontend_creds_path = "frontend-creds.enc.json"
+
   # > The db-f1-micro and db-g1-small machine types aren't included in the Cloud SQL SLA. These machine types are
   # > configured to use a shared-core CPU, and are designed to provide low-cost test and development instances only.
   # > Don't use them for production instances.
