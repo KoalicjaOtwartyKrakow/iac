@@ -1,3 +1,8 @@
+module "lb" {
+  source               = "../modules/lb"
+  frontend_bucket_name = module.frontend_www_bucket.name
+}
+
 module "frontend_www_bucket" {
   source      = "../modules/frontend_www_bucket"
   location    = var.region
