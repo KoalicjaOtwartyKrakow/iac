@@ -19,8 +19,18 @@ resource "google_cloudbuild_trigger" "build-trigger" {
   build {
     step {
       name       = "node:14-alpine"
-      entrypoint = "yarn"
-      args       = ["install"]
+      entrypoint = "/bin/sh"
+      args       = [
+        "-c",
+        trimspace(
+          <<-EOT
+          npm config set "@fortawesome:registry" https://npm.fontawesome.com/
+          npm config set "//npm.fontawesome.com/:_authToken=$$FONTAWESOME_TOKEN"
+          yarn install
+          EOT
+        )
+      ]
+      secret_env  = ["FONTAWESOME_TOKEN"]
     }
     step {
       name       = "node:14-alpine"
@@ -48,6 +58,13 @@ resource "google_cloudbuild_trigger" "build-trigger" {
     step {
       name = "gcr.io/google.com/cloudsdktool/cloud-sdk:376.0.0-alpine"
       args = ["gsutil", "cp", "-r", "build/*", "${var.frontend_build_bucket_url}"]
+    }
+
+    available_secrets {
+      secret_manager {
+        env = "FONTAWESOME_TOKEN"
+        version_name = "projects/${var.gcp_project}/secrets/fontawesome_token/versions/latest"
+      }
     }
 
     logs_bucket = module.fronted_log_bucket.url
