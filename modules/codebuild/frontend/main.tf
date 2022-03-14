@@ -20,7 +20,7 @@ resource "google_cloudbuild_trigger" "build-trigger" {
     step {
       name       = "node:14-alpine"
       entrypoint = "/bin/sh"
-      args       = [
+      args = [
         "-c",
         trimspace(
           <<-EOT
@@ -30,7 +30,7 @@ resource "google_cloudbuild_trigger" "build-trigger" {
           EOT
         )
       ]
-      secret_env  = ["FONTAWESOME_TOKEN"]
+      secret_env = ["FONTAWESOME_TOKEN"]
     }
     step {
       name       = "node:14-alpine"
@@ -62,7 +62,7 @@ resource "google_cloudbuild_trigger" "build-trigger" {
 
     available_secrets {
       secret_manager {
-        env = "FONTAWESOME_TOKEN"
+        env          = "FONTAWESOME_TOKEN"
         version_name = "projects/${var.gcp_project}/secrets/fontawesome_token/versions/latest"
       }
     }
