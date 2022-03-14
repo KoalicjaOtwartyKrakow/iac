@@ -4,7 +4,9 @@ locals {
     "roles/logging.logWriter",
     "roles/storage.admin",
     "roles/storage.objectAdmin",
-    "roles/cloudfunctions.admin"
+    "roles/cloudfunctions.admin",
+    # TODO(mlazowik): look into making this more granular (access only to specific secrets)
+    "roles/secretmanager.secretAccessor",
   ]
 }
 
