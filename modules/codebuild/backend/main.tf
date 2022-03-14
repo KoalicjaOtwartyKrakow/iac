@@ -14,6 +14,18 @@ locals {
 
 data "google_project" "project" {}
 
+data "google_service_account" "appengine-default" {
+  account_id = "${var.gcp_project}@appspot.gserviceaccount.com"
+}
+
+# TODO(mlazowik): replace with service accounts dedicated to different set of permissions, different accounts assigned
+#  to different functions.
+resource "google_project_iam_member" "appengine-default-secret-accessor" {
+  project = data.google_project.project.id
+  role    = "roles/secretmanager.secretAccessor"
+  member  = "serviceAccount:${data.google_service_account.appengine-default.email}"
+}
+
 resource "google_cloudbuild_trigger" "build-trigger" {
   name            = local.backend_codebuild_name
   service_account = var.service_account
