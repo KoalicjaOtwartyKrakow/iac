@@ -52,7 +52,7 @@ resource "google_cloudbuild_trigger" "build-trigger" {
           "--source=.",
           "--trigger-http",
           "--runtime=python39",
-          "--set-env-vars=PROJECT_ID=${var.project_id}"
+          "--set-env-vars=PROJECT_ID=${local.project_id}"
         ]
 
         wait_for = ["-"] # The "-" applied to all steps means that they will run in parallel.
