@@ -1,7 +1,6 @@
 locals {
   frontend_codebuild_name = "${var.gcp_project}-build-fronted"
   frontend_bucket_name    = "${var.gcp_project}-codebuild-fronted-logs"
-  cloud_function_url      = "https://${var.region}-${var.gcp_project}.cloudfunctions.net/"
 }
 
 resource "google_cloudbuild_trigger" "build-trigger" {
@@ -37,7 +36,7 @@ resource "google_cloudbuild_trigger" "build-trigger" {
       entrypoint = "yarn"
       args       = ["run", "build"]
       env = [
-        "REACT_APP_KOKON_API_URL=${local.cloud_function_url}",
+        "REACT_APP_KOKON_API_URL=/api",
         "REACT_APP_KOKON_ROUTER_BASENAME=",
         "REACT_APP_KOKON_API_USE_MOCKS=false"
       ]

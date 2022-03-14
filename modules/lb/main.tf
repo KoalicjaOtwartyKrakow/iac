@@ -33,6 +33,17 @@ resource "google_compute_url_map" "lb" {
   path_matcher {
     name            = "allpaths"
     default_service = google_compute_backend_bucket.frontend-bucket-backend.self_link
+
+    path_rule {
+      paths   = ["/api/*"]
+      service = google_compute_backend_service.functions.self_link
+
+      route_action {
+        url_rewrite {
+          path_prefix_rewrite = "/"
+        }
+      }
+    }
   }
 }
 
@@ -43,5 +54,25 @@ resource "google_compute_backend_bucket" "frontend-bucket-backend" {
 
   cdn_policy {
     cache_mode = "USE_ORIGIN_HEADERS"
+  }
+}
+
+resource "google_compute_backend_service" "functions" {
+  name = "functions"
+
+  backend {
+    group = google_compute_region_network_endpoint_group.functions.id
+  }
+}
+
+resource "google_compute_region_network_endpoint_group" "functions" {
+  provider = google-beta
+
+  name                  = "functions"
+  network_endpoint_type = "SERVERLESS"
+  region                = var.region
+
+  cloud_run {
+    service = var.functions_endpoint_cloud_run_name
   }
 }

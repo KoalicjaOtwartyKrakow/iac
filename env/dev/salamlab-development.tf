@@ -24,10 +24,28 @@ provider "google" {
   impersonate_service_account = "terraform-development@salamlab-development.iam.gserviceaccount.com"
 }
 
+provider "google-beta" {
+  project = "salamlab-development"
+  region  = "europe-central2"
+
+  # Requires the `Service Account Token Creator` role on people that need to run terraform.
+  #
+  # Required roles on the terraform service account itself:
+  # * Cloud Run Admin
+  # * Compute Network Admin
+  # * Editor
+  # * Project IAM Admin
+  # * Secret Manager Admin
+  impersonate_service_account = "terraform-development@salamlab-development.iam.gserviceaccount.com"
+}
+
 module "main" {
   source      = "../../main"
   gcp_project = "salamlab-development"
   region      = "europe-central2"
+
+  # See the comment inside `google_cloud_run_service`
+  endpoints-cloud-run-domain = "api-lrkrxtdxwa-lm.a.run.app"
 
   github_repo_owner           = "KoalicjaOtwartyKrakow"
   frontend_github_repo_name   = "frontend"

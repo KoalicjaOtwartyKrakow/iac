@@ -1,0 +1,975 @@
+swagger: "2.0"
+info:
+  description: "This is an API for a [SalamLab](http://salamlab.pl) workflow management system."
+  version: "0.1.0"
+  title: "SalamLab API"
+  termsOfService: "http://salamlab.pl/terms/"
+  contact:
+    email: "contact@salamlab.pl"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+host: "api-lrkrxtdxwa-lm.a.run.app"
+tags:
+  - name: "host"
+    description: "Information about the hosts"
+  - name: "accommodation"
+    description: "Information about the accommodation units"
+  - name: "guest"
+    description: "Information about the guests"
+  - name: "teammember"
+    description: "Information about the team members"
+schemes:
+  - "https"
+paths:
+  /hello_http:
+    get:
+      tags:
+        - "hello"
+      summary: "Hello"
+      description: ""
+      operationId: "hello_http"
+      x-google-backend:
+        address: https://europe-central2-salamlab-development.cloudfunctions.net/hello_http
+      produces:
+        - "text/plain"
+      responses:
+        "400":
+          description: "Invalid status supplied"
+        "200":
+          description: "Ok. If no host found, empty array will be returned."
+  /host:
+    post:
+      tags:
+        - "host"
+      summary: "Add new host"
+      description: ""
+      operationId: "add_host"
+      x-google-backend:
+        address: https://europe-central2-salamlab-development.cloudfunctions.net/add_host
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "Host object that needs to be added to the database"
+          required: true
+          schema:
+            $ref: "#/definitions/HostCreate"
+      responses:
+        "405":
+          description: "Invalid input"
+        "201":
+          description: "Created"
+    get:
+      tags:
+        - "host"
+      summary: "Get all hosts"
+      description: ""
+      operationId: "get_all_hosts"
+      x-google-backend:
+        address: https://europe-central2-salamlab-development.cloudfunctions.net/get_all_hosts
+      produces:
+        - "application/json"
+      responses:
+        "400":
+          description: "Invalid status supplied"
+        "200":
+          description: "Ok. If no host found, empty array will be returned."
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Host"
+  /host/findByStatus:
+    get:
+      tags:
+        - "host"
+      summary: "Get hosts with status"
+      description: ""
+      operationId: "get_hosts_by_status"
+      x-google-backend:
+        address: https://europe-central2-salamlab-development.cloudfunctions.net/get_hosts_by_status
+      parameters:
+        - in: query
+          name: "status"
+          type: "string"
+          description: "Verification status of the Host"
+          required: true
+          enum:
+            - "created"
+            - "verified"
+            - "rejected"
+
+      produces:
+        - "application/json"
+      responses:
+        "200":
+          description: "Ok"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Host"
+  /host/{hostId}:
+    get:
+      tags:
+        - "host"
+      summary: "Find host by ID"
+      description: "Returns a single host"
+      operationId: "get_host_by_id"
+      x-google-backend:
+        address: https://europe-central2-salamlab-development.cloudfunctions.net/get_host_by_id
+      produces:
+        - "application/json"
+      parameters:
+        - name: "hostId"
+          in: "path"
+          description: "ID of host to return"
+          required: true
+          type: "string"
+          format: "uuid"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Host"
+        "400":
+          description: "Invalid ID supplied"
+        "404":
+          description: "Host not found"
+    post:
+      tags:
+        - "host"
+      summary: "Updates a host in the database"
+      description: ""
+      operationId: "update_host"
+      x-google-backend:
+        address: https://europe-central2-salamlab-development.cloudfunctions.net/update_host
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "hostId"
+          in: "path"
+          description: "ID of host that needs to be updated"
+          required: true
+          type: "string"
+          format: "uuid"
+        - in: "body"
+          name: "body"
+          description: "Host information that needs to be updated in the database"
+          required: true
+          schema:
+            $ref: "#/definitions/HostUpdate"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Host"
+        "400":
+          description: "Invalid ID supplied"
+        "404":
+          description: "Host not found"
+        "405":
+          description: "Invalid input"
+    delete:
+      tags:
+        - "host"
+      summary: "Deletes a host"
+      description: ""
+      operationId: "delete_host"
+      x-google-backend:
+        address: https://europe-central2-salamlab-development.cloudfunctions.net/delete_host
+      produces:
+        - "application/json"
+      parameters:
+        - name: "api_key"
+          in: "header"
+          required: false
+          type: "string"
+        - name: "hostId"
+          in: "path"
+          description: "Host id to delete"
+          required: true
+          type: "string"
+          format: "uuid"
+      responses:
+        "400":
+          description: "Invalid ID supplied"
+        "404":
+          description: "Pet not found"
+  /accommodation:
+    post:
+      tags:
+        - "accommodation"
+      summary: "Add new accommodation unit"
+      description: ""
+      operationId: "add_accommodation"
+      x-google-backend:
+        address: https://europe-central2-salamlab-development.cloudfunctions.net/add_accommodation
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "Accommodation Unit object that needs to be added to the database"
+          required: true
+          schema:
+            $ref: "#/definitions/AccommodationUnitCreate"
+      responses:
+        "405":
+          description: "Invalid input"
+        "201":
+          description: "Created"
+    get:
+      tags:
+        - "accommodation"
+      summary: "Get all accommodation units"
+      description: ""
+      operationId: "get_all_accommodations"
+      x-google-backend:
+        address: https://europe-central2-salamlab-development.cloudfunctions.net/get_all_accommodations
+      produces:
+        - "application/json"
+      responses:
+        "200":
+          description: "Ok"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/AccommodationUnit"
+  /accommodation/{accommodationId}:
+    get:
+      tags:
+        - "accommodation"
+      summary: "Find accommodation unit by ID"
+      description: "Returns a single accommodation unit"
+      operationId: "get_accommodation_by_id"
+      x-google-backend:
+        address: https://europe-central2-salamlab-development.cloudfunctions.net/get_accommodation_by_id
+      produces:
+        - "application/json"
+      parameters:
+        - name: "accommodationId"
+          in: "path"
+          description: "ID of accommodation to return"
+          required: true
+          type: "string"
+          format: "uuid"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/AccommodationUnit"
+        "400":
+          description: "Invalid ID supplied"
+        "404":
+          description: "Accommodation Unit not found"
+    post:
+      tags:
+        - "accommodation"
+      summary: "Updates an accommodation unit"
+      description: ""
+      operationId: "update_accommodation"
+      x-google-backend:
+        address: https://europe-central2-salamlab-development.cloudfunctions.net/update_accommodation
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "accommodationId"
+          in: "path"
+          description: "ID of host that needs to be updated"
+          required: true
+          type: "string"
+          format: "uuid"
+        - in: "body"
+          name: "body"
+          description: "Host information that needs to be updated in the database"
+          required: true
+          schema:
+            $ref: "#/definitions/AccommodationUnitUpdate"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/AccommodationUnit"
+        "400":
+          description: "Invalid ID supplied"
+        "404":
+          description: "Accommodation Unit not found"
+        "405":
+          description: "Invalid input"
+    delete:
+      tags:
+        - "accommodation"
+      summary: "Deletes an Accommodation Unit"
+      description: ""
+      operationId: "delete_accommodation"
+      x-google-backend:
+        address: https://europe-central2-salamlab-development.cloudfunctions.net/delete_accommodation
+      produces:
+        - "application/json"
+      parameters:
+        - name: "api_key"
+          in: "header"
+          required: false
+          type: "string"
+        - name: "accommodationId"
+          in: "path"
+          description: "Accommodation Unit id to delete"
+          required: true
+          type: "string"
+          format: "uuid"
+      responses:
+        "400":
+          description: "Invalid ID supplied"
+        "404":
+          description: "Pet not found"
+  /accommodation/{accommodationId}/guest:
+    post:
+      tags:
+        - "accommodation"
+      summary: "Add guest to accommodation unit"
+      description: ""
+      operationId: "add_guest_to_accommodation"
+      x-google-backend:
+        address: https://europe-central2-salamlab-development.cloudfunctions.net/add_guest_to_accommodation
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "accommodationId"
+          in: "path"
+          description: "ID of host that needs to be updated"
+          required: true
+          type: "string"
+          format: "uuid"
+        - in: "body"
+          name: "body"
+          description: "Host information that needs to be updated in the database"
+          required: true
+          schema:
+            $ref: "#/definitions/AccommodationUnitUpdate"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/AccommodationUnit"
+        "400":
+          description: "Invalid ID supplied"
+        "404":
+          description: "Accommodation Unit not found"
+        "405":
+          description: "Invalid input"
+  /accommodation/{accommodationId}/guest/{guestId}:
+    delete:
+      tags:
+        - "accommodation"
+      summary: "Deletes an Accommodation Unit"
+      description: ""
+      operationId: "delete_guest_from_accommodation"
+      x-google-backend:
+        address: https://europe-central2-salamlab-development.cloudfunctions.net/delete_guest_from_accommodation
+      produces:
+        - "application/json"
+      parameters:
+        - name: "api_key"
+          in: "header"
+          required: false
+          type: "string"
+        - name: "accommodationId"
+          in: "path"
+          description: "Accommodation Unit to delete a guest from"
+          required: true
+          type: "string"
+          format: "uuid"
+        - name: "guestId"
+          in: "path"
+          description: "Guest id to delete"
+          required: true
+          type: "string"
+          format: "uuid"
+      responses:
+        "400":
+          description: "Invalid ID supplied"
+        "404":
+          description: "Pet not found"
+  /guest:
+    post:
+      tags:
+        - "guest"
+      summary: "Add new guest"
+      description: ""
+      operationId: "add_guest"
+      x-google-backend:
+        address: https://europe-central2-salamlab-development.cloudfunctions.net/add_guest
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "Guest object that needs to be added to the database"
+          required: true
+          schema:
+            $ref: "#/definitions/GuestCreate"
+      responses:
+        "405":
+          description: "Invalid input"
+        "201":
+          description: "Created"
+    get:
+      tags:
+        - "guest"
+      summary: "Get all guests"
+      description: ""
+      operationId: "get_all_guests"
+      x-google-backend:
+        address: https://europe-central2-salamlab-development.cloudfunctions.net/get_all_guests
+      produces:
+        - "application/json"
+      responses:
+        "200":
+          description: "Ok. If not found, empty array will be returned."
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Guest"
+  /guest/{guestId}:
+    get:
+      tags:
+        - "guest"
+      summary: "Find guest by ID"
+      description: "Returns a single guest"
+      operationId: "get_guest_by_id"
+      x-google-backend:
+        address: https://europe-central2-salamlab-development.cloudfunctions.net/get_guest_by_id
+      produces:
+        - "application/json"
+      parameters:
+        - name: "guestId"
+          in: "path"
+          description: "ID of guest to return"
+          required: true
+          type: "string"
+          format: "uuid"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Guest"
+        "400":
+          description: "Invalid ID supplied"
+        "404":
+          description: "Guest not found"
+    post:
+      tags:
+        - "guest"
+      summary: "Updates a guest in the database"
+      description: ""
+      operationId: "update_guest"
+      x-google-backend:
+        address: https://europe-central2-salamlab-development.cloudfunctions.net/update_guest
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "guestId"
+          in: "path"
+          description: "ID of guest that needs to be updated"
+          required: true
+          type: "string"
+          format: "uuid"
+        - in: "body"
+          name: "body"
+          description: "Guest information that needs to be updated in the database"
+          required: true
+          schema:
+            $ref: "#/definitions/GuestUpdate"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Guest"
+        "400":
+          description: "Invalid ID supplied"
+        "404":
+          description: "Guest not found"
+        "405":
+          description: "Invalid input"
+    delete:
+      tags:
+        - "guest"
+      summary: "Deletes a guest"
+      description: ""
+      operationId: "delete_guest"
+      x-google-backend:
+        address: https://europe-central2-salamlab-development.cloudfunctions.net/delete_guest
+      produces:
+        - "application/json"
+      parameters:
+        - name: "api_key"
+          in: "header"
+          required: false
+          type: "string"
+        - name: "guestId"
+          in: "path"
+          description: "Guest id to delete"
+          required: true
+          type: "string"
+          format: "uuid"
+      responses:
+        "400":
+          description: "Invalid ID supplied"
+        "404":
+          description: "Pet not found"
+  /guest/{guestId}/accommodations:
+    get:
+      tags:
+        - "guest"
+      summary: "Finds accommodation matching this guests needs"
+      description: ""
+      operationId: "find_accommodation_for_guest"
+      x-google-backend:
+        address: https://europe-central2-salamlab-development.cloudfunctions.net/find_accommodation_for_guest
+      produces:
+        - "application/json"
+      parameters:
+        - name: "guestId"
+          in: "path"
+          description: "ID of guest to find accommodation for"
+          required: true
+          type: "string"
+          format: "uuid"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/AccommodationUnit"
+        "400":
+          description: "Invalid status value"
+  /teammember:
+    post:
+      tags:
+        - "teammember"
+      summary: "Add new teammember"
+      description: ""
+      operationId: "add_teammember"
+      x-google-backend:
+        address: https://europe-central2-salamlab-development.cloudfunctions.net/add_teammember
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "Teammember object that needs to be added to the database"
+          required: true
+          schema:
+            $ref: "#/definitions/TeamMemberCreate"
+      responses:
+        "405":
+          description: "Invalid input"
+        "201":
+          description: "Created"
+    get:
+      tags:
+        - "teammember"
+      summary: "Get all teammembers"
+      description: ""
+      operationId: "get_all_teammembers"
+      x-google-backend:
+        address: https://europe-central2-salamlab-development.cloudfunctions.net/get_all_teammembers
+      produces:
+        - "application/json"
+      responses:
+        "201":
+          description: "Ok. If not found, empty array will be returned."
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/TeamMember"
+  /teammember/{teammemberId}:
+    get:
+      tags:
+        - "teammember"
+      summary: "Find teammember by ID"
+      description: "Returns a single teammember"
+      operationId: "get_teammember_by_id"
+      x-google-backend:
+        address: https://europe-central2-salamlab-development.cloudfunctions.net/get_teammember_by_id
+      produces:
+        - "application/json"
+      parameters:
+        - name: "teammemberId"
+          in: "path"
+          description: "ID of teammember to return"
+          required: true
+          type: "string"
+          format: "uuid"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/TeamMember"
+        "400":
+          description: "Invalid ID supplied"
+        "404":
+          description: "Teammember not found"
+    post:
+      tags:
+        - "teammember"
+      summary: "Updates a teammember in the database"
+      description: ""
+      operationId: "update_teammember"
+      x-google-backend:
+        address: https://europe-central2-salamlab-development.cloudfunctions.net/update_teammember
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "teammemberId"
+          in: "path"
+          description: "ID of teammember that needs to be updated"
+          required: true
+          type: "string"
+          format: "uuid"
+        - in: "body"
+          name: "body"
+          description: "Teammember information that needs to be updated in the database"
+          required: true
+          schema:
+            $ref: "#/definitions/TeamMemberUpdate"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/TeamMember"
+        "400":
+          description: "Invalid ID supplied"
+        "404":
+          description: "Teammember not found"
+        "405":
+          description: "Invalid input"
+    delete:
+      tags:
+        - "teammember"
+      summary: "Deletes a teammember"
+      description: ""
+      operationId: "delete_teammember"
+      x-google-backend:
+        address: https://europe-central2-salamlab-development.cloudfunctions.net/delete_teammember
+      produces:
+        - "application/json"
+      parameters:
+        - name: "api_key"
+          in: "header"
+          required: false
+          type: "string"
+        - name: "teammemberId"
+          in: "path"
+          description: "Teammember id to delete"
+          required: true
+          type: "string"
+          format: "uuid"
+      responses:
+        "400":
+          description: "Invalid ID supplied"
+        "404":
+          description: "Pet not found"
+
+definitions:
+  Time:
+    type: "string"
+    pattern: '^\d{1,2}(:\d{2})?([AaPp][mM])?$'
+    description: >
+      Time can be given in 12h or 24h format.
+  PhoneNumber:
+    type: "string"
+    pattern: '^(\+\d{1,2} ?)?\d{3}[- \.]?\d{3}[- \.]?\d{3}$'
+    description: >
+      Phone number, can include optional national prefix `+48`. Triplets may be separated by
+      `-`, ` ` or `.`.
+  Language:
+    type: "string"
+    enum:
+      - "En"
+      - "Pl"
+      - "Uk"
+      - "Ru"
+    description: "2 letter ISO-639-1 compliant code"
+
+  HostCreate:
+    type: "object"
+    required:
+      - "fullName"
+      - "email"
+      - "phoneNumber"
+    properties:
+      fullName:
+        type: "string"
+        example: "Cecylia Łukaszyk"
+      email:
+        type: "string"
+        format: "email"
+      phoneNumber:
+        $ref: "#/definitions/PhoneNumber"
+      callAfter:
+        $ref: "#/definitions/Time"
+      callBefore:
+        $ref: "#/definitions/Time"
+      comments:
+        type: "string"
+        description: "Free text comments from Host"
+      languagesSpoken:
+        type: "array"
+        items:
+          $ref: "#/definitions/Language"
+
+  HostUpdate:
+    allOf:
+      - $ref: "#/definitions/HostCreate"
+      - type: "object"
+        properties:
+          status:
+            type: "string"
+            description: "Verification status of the Host"
+            enum:
+              - "created"
+              - "verified"
+              - "rejected"
+
+  Host:
+    allOf:
+      - $ref: "#/definitions/HostUpdate"
+      - type: "object"
+        properties:
+          id:
+            type: "string"
+            format: "uuid"
+          createdAt:
+            type: "string"
+            format: "date-time"
+          updatedAt:
+            type: "string"
+            format: "date-time"
+
+  Voivodeship:
+    type: "string"
+    enum:
+      - "DOLNOŚLĄSKIE"
+      - "KUJAWSKO-POMORSKIE"
+      - "LUBELSKIE"
+      - "LUBUSKIE"
+      - "ŁÓDZKIE"
+      - "MAŁOPOLSKIE"
+      - "MAZOWIECKIE"
+      - "OPOLSKIE"
+      - "PODKARPACKIE"
+      - "PODLASKIE"
+      - "POMORSKIE"
+      - "ŚLĄSKIE"
+      - "ŚWIĘTOKRZYSKIE"
+      - "WARMIŃSKO-MAZURSKIE"
+      - "WIELKOPOLSKIE"
+      - "ZACHODNIOPOMORSKIE"
+
+  AccommodationUnitCreate:
+    type: "object"
+    required:
+      - "hostId"
+      - "city"
+      - "zip"
+      - "voivodeship"
+      - "addressLine"
+      - "vacanciesTotal"
+    properties:
+      hostId:
+        type: "string"
+        format: "uuid"
+      city:
+        type: "string"
+        description: "City name"
+      zip:
+        type: "string"
+        pattern: '^\d{2}-\d{3}'
+        description: "Zip code"
+      voivodeship:
+        $ref: "#/definitions/Voivodeship"
+      addressLine:
+        type: "string"
+      vacanciesTotal:
+        type: "integer"
+      petsPresent:
+        type: "boolean"
+      petsAccepted:
+        type: "boolean"
+      disabledPeopleFriendly:
+        type: "boolean"
+      lgbtFriendly:
+        type: "boolean"
+      parkingPlaceAvailable:
+        type: "boolean"
+      ownerComments:
+        type: "string"
+      easyAmbulanceAccess:
+        type: "boolean"
+
+  AccommodationUnitUpdate:
+    allOf:
+      - $ref: "#/definitions/AccommodationUnitCreate"
+      - type: "object"
+        properties:
+          vacanciesFree:
+            type: "integer"
+          status:
+            type: "string"
+            description: "Verification status of the Host"
+            enum:
+              - "created"
+              - "verified"
+              - "rejected"
+          staffComments:
+            type: "string"
+
+  AccommodationUnit:
+    allOf:
+      - $ref: "#/definitions/AccommodationUnitUpdate"
+      - type: "object"
+        properties:
+          id:
+            type: "string"
+            format: "uuid"
+          host:
+            $ref: "#/definitions/Host"
+          createdAt:
+            type: "string"
+            format: "date-time"
+          updatedAt:
+            type: "string"
+            format: "date-time"
+
+  GuestCreate:
+    type: "object"
+    required:
+      - "fullName"
+      - "email"
+      - "phoneNumber"
+    properties:
+      fullName:
+        type: "string"
+        example: "Cecylia Łukaszyk"
+      email:
+        type: "string"
+        format: "email"
+      phoneNumber:
+        $ref: "#/definitions/PhoneNumber"
+      peopleInGroup:
+        type: "integer"
+      adultMaleCount:
+        type: "integer"
+      adultFemaleCount:
+        type: "integer"
+      children:
+        type: "array"
+        items:
+          type: "object"
+          properties:
+            age:
+              type: "integer"
+      havePets:
+        type: "boolean"
+      petsDescription:
+        type: "string"
+      specialNeeds:
+        type: "string"
+      foodAllergies:
+        type: "string"
+      meatFreeDiet:
+        type: "boolean"
+      glutenFreeDiet:
+        type: "boolean"
+      lactoseFreeDiet:
+        type: "boolean"
+      financeStatus:
+        type: "string"
+      howLongToStay:
+        type: "string"
+      desiredDestination:
+        type: "string"
+      priorityStatus:
+        type: "string"
+        enum:
+          - "accommodation_not_needed"
+          - "accommodation_found"
+          - "en_route_ukraine"
+          - "en_route_poland"
+          - "in_krakow"
+          - "in_crisis_point"
+      priorityDate:
+        type: "string"
+        format: "date"
+        description: "Date since when the accommodation will be needed"
+
+  GuestUpdate:
+    allOf:
+      - $ref: "#/definitions/GuestCreate"
+      - type: "object"
+        properties:
+          verificationStatus:
+            type: "string"
+            enum:
+              - "created"
+              - "verified"
+              - "rejected"
+  Guest:
+    allOf:
+      - $ref: "#/definitions/GuestUpdate"
+      - type: "object"
+        properties:
+          id:
+            type: "string"
+            format: "uuid"
+          createdAt:
+            type: "string"
+            format: "date-time"
+          updatedAt:
+            type: "string"
+            format: "date-time"
+
+  TeamMemberCreate:
+    type: "object"
+    required:
+      - "fullName"
+      - "phoneNumber"
+    properties:
+      fullName:
+        type: "string"
+        example: "Cecylia Łukaszyk"
+      phoneNumber:
+        $ref: "#/definitions/PhoneNumber"
+
+  TeamMemberUpdate:
+    $ref: "#/definitions/TeamMemberCreate"
+
+  TeamMember:
+    allOf:
+      - $ref: "#/definitions/TeamMemberUpdate"
+      - type: "object"
+        properties:
+          id:
+            type: "string"
+            format: "uuid"
