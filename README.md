@@ -44,3 +44,21 @@ To create/edit them:
    1. dev: `sops -e -i --gcp-kms projects/salamlab-development/locations/global/keyRings/terraform-sops-keyring/cryptoKeys/terraform-sops-key <path>`
    2. prod (not setup yet): `sops -e -i --gcp-kms projects/salamlab-production/locations/global/keyRings/terraform-sops-keyring/cryptoKeys/terraform-sops-key <path>`
 4. To edit an encrypted file with `$EDITOR`: `sops <path>`
+
+## Connecting to the db from your computer
+In general this should not be needed regularly. If you have a use case for manually connecting to the db
+please ping the devops team in the #general-tech channel on discord.
+
+Requirements:
+- `gcloud` CLI: https://cloud.google.com/sdk/docs/install
+- `sops`: https://github.com/mozilla/sops
+- `cloud_sql_proxy`: https://cloud.google.com/sql/docs/postgres/connect-admin-proxy#install
+
+Steps:
+1. Make sure you have all the requirements installed
+2. Start the proxy:
+   * Dev: `cloud_sql_proxy -instances=salamlab-development:europe-central2:main-v2=tcp:127.0.0.1:5432`
+   * Prod: TBD
+3. `gcloud auth application-default login`, select your kok account
+4. `sops env/dev/apartments-db-creds.enc.json` – this will print the username and password
+5. Connect your db browser (psql/jetbrains/dbeaver/…) to `127.0.0.1:5432` and use the creds from step 4.
