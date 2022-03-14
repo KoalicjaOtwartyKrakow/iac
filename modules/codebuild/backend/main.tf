@@ -55,7 +55,7 @@ resource "google_cloudbuild_trigger" "build-trigger" {
           "--set-env-vars=PROJECT_ID=613656411888"
         ]
 
-        wait_for = ["-"] # The "-" indicates that this step begins immediately.
+        wait_for = ["-"] # The "-" applied to all steps means that they will run in parallel.
       }
     }
 
