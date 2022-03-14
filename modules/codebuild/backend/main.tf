@@ -2,7 +2,7 @@ locals {
   backend_codebuild_name = "${var.gcp_project}-build-backend"
   backend_bucket_name    = "${var.gcp_project}-codebuild-backend-logs"
 
-  project_id = data.google_project.project.project_id
+  project_id = data.google_project.project.number
   cloud_functions = toset([
     "get_all_accommodations",
     "add_accommodation",
