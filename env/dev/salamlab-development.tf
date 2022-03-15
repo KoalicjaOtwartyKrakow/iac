@@ -51,7 +51,7 @@ module "main" {
 
   github_repo_owner           = "KoalicjaOtwartyKrakow"
   frontend_github_repo_name   = "frontend"
-  frontend_github_repo_branch = "^main$"
+  frontend_github_repo_branch = "^staging$"
   backend_github_repo_name    = "backend"
   backend_github_repo_branch  = "^dev$"
 
