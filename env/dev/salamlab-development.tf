@@ -44,6 +44,8 @@ module "main" {
   gcp_project = "salamlab-development"
   region      = "europe-central2"
 
+  env_type = "dev"
+
   # See the comment inside `google_cloud_run_service`
   endpoints-cloud-run-domain = "api-lrkrxtdxwa-lm.a.run.app"
 

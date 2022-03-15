@@ -60,6 +60,10 @@ resource "google_compute_backend_bucket" "frontend-bucket-backend" {
 resource "google_compute_backend_service" "functions" {
   name = "functions"
 
+  custom_response_headers = flatten([
+    var.env_type == "dev" ? ["Access-Control-Allow-Origin: http://localhost:3000"] : [],
+  ])
+
   backend {
     group = google_compute_region_network_endpoint_group.functions.id
   }

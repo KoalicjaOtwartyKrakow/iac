@@ -9,10 +9,12 @@ module "terraform-sops" {
 module "lb" {
   source = "../modules/lb"
 
-  gcp_project          = var.gcp_project
-  region               = var.region
-  frontend_bucket_name = module.frontend_www_bucket.name
+  gcp_project = var.gcp_project
+  region      = var.region
+  env_type    = var.env_type
 
+
+  frontend_bucket_name              = module.frontend_www_bucket.name
   functions_endpoint_cloud_run_name = module.endpoints.functions_endpoint_cloud_run_name
 }
 
