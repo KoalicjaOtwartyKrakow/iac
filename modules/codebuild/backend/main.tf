@@ -2,7 +2,7 @@ locals {
   backend_codebuild_name = "${var.gcp_project}-build-backend"
   backend_bucket_name    = "${var.gcp_project}-codebuild-backend-logs"
 
-  project_id = data.google_project.project.project_id
+  project_id = data.google_project.project.number
   cloud_functions = toset([
     "get_all_accommodations",
     "add_accommodation",
@@ -52,7 +52,7 @@ resource "google_cloudbuild_trigger" "build-trigger" {
           "--source=.",
           "--trigger-http",
           "--runtime=python39",
-          "--set-env-vars=PROJECT_ID=613656411888"
+          "--set-env-vars=PROJECT_ID=${local.project_id}"
         ]
 
         wait_for = ["-"] # The "-" applied to all steps means that they will run in parallel.
