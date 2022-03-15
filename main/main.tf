@@ -1,10 +1,29 @@
+locals {
+  zone_name = "zone"
+}
+
 module "terraform-sops" {
   source = "../modules/terraform-sops"
 }
 
 module "lb" {
-  source               = "../modules/lb"
+  source = "../modules/lb"
+
+  gcp_project          = var.gcp_project
+  region               = var.region
   frontend_bucket_name = module.frontend_www_bucket.name
+
+  functions_endpoint_cloud_run_name = module.endpoints.functions_endpoint_cloud_run_name
+}
+
+module "endpoints" {
+  source = "../modules/endpoints"
+
+  gcp_project = var.gcp_project
+  location    = var.region
+  zone_name   = local.zone_name
+
+  endpoints-cloud-run-domain = var.endpoints-cloud-run-domain
 }
 
 module "frontend_www_bucket" {

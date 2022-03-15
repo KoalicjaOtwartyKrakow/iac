@@ -9,6 +9,11 @@ variable "region" {
   nullable = false
 }
 
+variable "endpoints-cloud-run-domain" {
+  type     = string
+  nullable = false
+}
+
 variable "frontend_creds_path" {
   type        = string
   description = "Path to sops-encrypted json with frontend secrets"
