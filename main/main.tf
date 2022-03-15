@@ -58,3 +58,9 @@ module "db" {
   retained_backups_count = var.db_retained_backups_count
   db_creds_path          = var.db_creds_path
 }
+
+module "iam" {
+  source = "../modules/iam"
+
+  devs_group_email = var.devs_group_email
+}

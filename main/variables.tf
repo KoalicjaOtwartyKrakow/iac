@@ -84,3 +84,8 @@ variable "db_retained_backups_count" {
   description = "Number of days to keep backups for"
   nullable    = false
 }
+
+variable "devs_group_email" {
+  type     = string
+  nullable = false
+}

@@ -44,6 +44,8 @@ module "main" {
   gcp_project = "salamlab-development"
   region      = "europe-central2"
 
+  devs_group_email = "apartments-devs@koalicjaotwartykrakow.pl"
+
   env_type = "dev"
 
   # See the comment inside `google_cloud_run_service`
