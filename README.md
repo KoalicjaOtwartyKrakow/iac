@@ -53,6 +53,7 @@ Requirements:
 - `gcloud` CLI: https://cloud.google.com/sdk/docs/install
 - `sops`: https://github.com/mozilla/sops
 - `cloud_sql_proxy`: https://cloud.google.com/sql/docs/postgres/connect-admin-proxy#install
+- `vim`, `vi`, `nano`, `emacs` editor configured with `EDITOR` environment variable.
 
 Steps:
 1. Make sure you have all the requirements installed
