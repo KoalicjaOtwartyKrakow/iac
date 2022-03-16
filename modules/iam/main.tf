@@ -1,6 +1,7 @@
 locals {
   devs_roles = [
     "roles/cloudfunctions.viewer",
+    "roles/logging.viewer",
   ]
 }
 
