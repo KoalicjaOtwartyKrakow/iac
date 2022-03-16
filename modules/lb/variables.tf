@@ -4,6 +4,11 @@ variable "gcp_project" {
   nullable    = false
 }
 
+variable "dns_zone_name" {
+  type     = string
+  nullable = false
+}
+
 variable "env_type" {
   type        = string
   description = "Dev or prod. Dev is less secure, for example backend CORS allows requests from localhost:3000"

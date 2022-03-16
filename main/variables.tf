@@ -20,6 +20,11 @@ variable "env_type" {
   }
 }
 
+variable "dns_zone_name" {
+  type     = string
+  nullable = false
+}
+
 variable "endpoints-cloud-run-domain" {
   type     = string
   nullable = false

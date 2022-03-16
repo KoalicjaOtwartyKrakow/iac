@@ -6,13 +6,20 @@ module "terraform-sops" {
   source = "../modules/terraform-sops"
 }
 
+module "dns" {
+  source = "../modules/dns"
+
+  dns_zone_name = var.dns_zone_name
+  lb_ip         = module.lb.lb_ip
+}
+
 module "lb" {
   source = "../modules/lb"
 
-  gcp_project = var.gcp_project
-  region      = var.region
-  env_type    = var.env_type
-
+  gcp_project   = var.gcp_project
+  region        = var.region
+  env_type      = var.env_type
+  dns_zone_name = var.dns_zone_name
 
   frontend_bucket_name              = module.frontend_www_bucket.name
   functions_endpoint_cloud_run_name = module.endpoints.functions_endpoint_cloud_run_name
