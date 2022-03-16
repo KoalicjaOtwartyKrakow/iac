@@ -22,22 +22,6 @@ tags:
 schemes:
   - "https"
 paths:
-  /hello_http:
-    get:
-      tags:
-        - "hello"
-      summary: "Hello"
-      description: ""
-      operationId: "hello_http"
-      x-google-backend:
-        address: https://europe-central2-salamlab-development.cloudfunctions.net/hello_http
-      produces:
-        - "text/plain"
-      responses:
-        "400":
-          description: "Invalid status supplied"
-        "200":
-          description: "Ok. If no host found, empty array will be returned."
   /host:
     post:
       tags:
