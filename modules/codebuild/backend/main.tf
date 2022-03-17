@@ -4,11 +4,22 @@ locals {
 
   project_id = data.google_project.project.number
   cloud_functions = toset([
-    "get_all_accommodations",
     "add_accommodation",
-    "create_host",
+    "get_all_accommodations",
+    "delete_accommodation",
+    "get_accommodation_by_id",
+    "update_accommodation",
     "get_all_guests",
-    "add_guest"
+    "add_guest",
+    "get_guest_by_id",
+    "delete_guest",
+    "update_guest",
+    "get_all_hosts",
+    "delete_host",
+    "update_host",
+    "create_host",
+    "get_host_by_id",
+    "get_hosts_by_status",
   ])
 }
 
