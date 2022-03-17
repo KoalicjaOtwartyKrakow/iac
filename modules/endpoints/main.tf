@@ -13,8 +13,9 @@ resource "google_cloud_run_service" "api" {
         # XXX(mlazowik): when applying for the first time you have to
         # 1. comment out the env block and google_endpoints_service
         # 2. apply
-        # 3. uncomment google_endpoints_service, add the google_cloud_run_service.api.status[0].url (without https://)
-        #    to the api yaml file, and as the `endpoints-cloud-run-domain` var in your terraform main module config
+        # 3. uncomment google_endpoints_service, add the google_cloud_run_service.api.status[0].url (without https://,
+        #    get it from https://console.cloud.google.com/run/detail/europe-central2/api/metrics?project=<project_id>)
+        #    to the api yaml file host field, and as the `endpoints-cloud-run-domain` var in your terraform main module config
         # 4. apply
         # 5. uncomment the env block
         # 6. apply

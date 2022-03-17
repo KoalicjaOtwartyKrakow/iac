@@ -93,10 +93,18 @@ resource "google_compute_backend_bucket" "frontend-bucket-backend" {
   bucket_name = var.frontend_bucket_name
   enable_cdn  = true
 
+  # Comment this out during the first apply, or an apply that changes this property. Set the desired state manually,
+  # then uncomment and apply again to check that you have matched the desired state properly.
+  #
+  # Reason is a bug in Google's API: https://stackoverflow.com/a/66935277
   custom_response_headers = [
     "Strict-Transport-Security:max-age=31536000; includeSubDomains",
   ]
 
+  # Comment this out during the first apply, or an apply that changes this property. Set the desired state manually,
+  # then uncomment and apply again to check that you have matched the desired state properly.
+  #
+  # Reason is a bug in Google's API: https://stackoverflow.com/a/66935277
   cdn_policy {
     cache_mode = "USE_ORIGIN_HEADERS"
   }
