@@ -57,12 +57,13 @@ Requirements:
 
 Steps:
 1. Make sure you have all the requirements installed
-2. Start the proxy:
+2. `gcloud auth login`, select your kok account
+3. Start the proxy:
    * Dev: `cloud_sql_proxy -instances=salamlab-development:europe-central2:main-v2=tcp:127.0.0.1:5432`
-   * Prod: TBD
-3. `gcloud auth application-default login`, select your kok account
-4. `sops env/dev/apartments-db-creds.enc.json` – this will print the username and password
-5. Connect your db browser (psql/jetbrains/dbeaver/…) to `127.0.0.1:5432` and use the creds from step 4.
+   * Prod: `cloud_sql_proxy -instances=salamlab-production:europe-central2:main-v2=tcp:127.0.0.1:5432`
+4. `gcloud auth application-default login`, select your kok account
+5. `sops env/dev/apartments-db-creds.enc.json` – this will print the username and password
+6. Connect your db browser (psql/jetbrains/dbeaver/…) to `127.0.0.1:5432` and use the creds from step 4.
 
 ## Troubleshooting
 
