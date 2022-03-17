@@ -29,6 +29,15 @@ resource "google_cloud_run_service" "api" {
           name  = "ENDPOINTS_SERVICE_NAME"
           value = var.endpoints-cloud-run-domain
         }
+
+        dynamic "env" {
+          for_each = (var.env_type == "dev") ? [1] : []
+          content {
+            name = "ESPv2_ARGS"
+            # For format see https://cloud.google.com/endpoints/docs/openapi/specify-esp-v2-startup-options#cloud_run_for_serverless_platforms
+            value = "^++^--cors_preset=basic++--cors_allow_origin=http://localhost:3000"
+          }
+        }
       }
     }
   }

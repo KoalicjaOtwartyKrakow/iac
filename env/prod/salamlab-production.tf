@@ -46,7 +46,7 @@ module "main" {
 
   devs_group_email = "apartments-devs@koalicjaotwartykrakow.pl"
 
-  env_type = "dev"
+  env_type = "prod"
 
   dns_zone_name = "apartments.r3.salamlab.pl"
 

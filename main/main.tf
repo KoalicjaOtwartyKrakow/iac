@@ -18,7 +18,6 @@ module "lb" {
 
   gcp_project   = var.gcp_project
   region        = var.region
-  env_type      = var.env_type
   dns_zone_name = var.dns_zone_name
 
   frontend_bucket_name              = module.frontend_www_bucket.name
@@ -31,6 +30,7 @@ module "endpoints" {
   gcp_project = var.gcp_project
   location    = var.region
   zone_name   = local.zone_name
+  env_type    = var.env_type
 
   endpoints-cloud-run-domain = var.endpoints-cloud-run-domain
 }
