@@ -55,6 +55,8 @@ module "codebuild" {
 
   backend_github_repo_name   = var.backend_github_repo_name
   backend_github_repo_branch = var.backend_github_repo_branch
+
+  env_type = var.env_type
 }
 
 module "db" {
