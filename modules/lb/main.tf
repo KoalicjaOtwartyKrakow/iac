@@ -115,7 +115,6 @@ resource "google_compute_backend_service" "functions" {
 
   custom_response_headers = flatten([
     "Strict-Transport-Security: max-age=31536000; includeSubDomains",
-    var.env_type == "dev" ? ["Access-Control-Allow-Origin: http://localhost:3000"] : [],
   ])
 
   backend {
