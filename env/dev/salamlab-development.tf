@@ -46,6 +46,7 @@ module "main" {
 
   devs_group_email = "apartments-devs@koalicjaotwartykrakow.pl"
 
+  # Do NOT change "dev" to something else, the frontend code depends on this value.
   env_type = "dev"
 
   dns_zone_name = "apartments-dev.r3.salamlab.pl"

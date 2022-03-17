@@ -33,6 +33,8 @@ module "codebuild_frontend" {
   frontend_github_repo_name   = var.frontend_github_repo_name
   frontend_github_repo_branch = var.frontend_github_repo_branch
   frontend_build_bucket_url   = var.frontend_build_bucket_url
+
+  env_type = var.env_type
 }
 
 module "codebuild_backend" {
