@@ -39,7 +39,7 @@ resource "google_cloudbuild_trigger" "build-trigger" {
         "REACT_APP_KOKON_API_URL=/api",
         "REACT_APP_KOKON_ROUTER_BASENAME=",
         "REACT_APP_KOKON_API_USE_MOCKS=false",
-        "REACT_APP_ENV=${var.env_type},"
+        "REACT_APP_ENV=${var.env_type}",
       ]
     }
     step {
