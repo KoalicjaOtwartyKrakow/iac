@@ -1,0 +1,23 @@
+{
+	"db_name": "ENC[AES256_GCM,data:FInUY2HGsK50Fw==,iv:po/fgtwjEx6OIolvmx64mqmnXsfoctchoKTN0Ho8KDc=,tag:37zwbPzIpYaS4qS/YsJl6Q==,type:str]",
+	"db_pass": "ENC[AES256_GCM,data:wQD0tCJ7MiTz9dgeGZw/7NgT1x8=,iv:rPzxqkiJpTl7FZrSf2BQ7HfnBOhDgIYMBooMjl7dvEs=,tag:4FYKo+JrlGhFwBWHo4TU1Q==,type:str]",
+	"db_socket_dir": "ENC[AES256_GCM,data:8VBSRy10D9IT,iv:453aqMkrEwZJyEABvbOmNslmJT7UlzB6YXIyjEas0gg=,tag:DHu9qyNDjRJrtZ95ds0wew==,type:str]",
+	"db_user": "ENC[AES256_GCM,data:EypGfHdSMH7nhw==,iv:/Rbuz4VKSGpISl/W6KUY5rtTDaqIJYlJcN7uFu5Mpus=,tag:u+nAqmPF8rnue+NOK7B74g==,type:str]",
+	"instance_connection_name": "ENC[AES256_GCM,data:VfeiiWtV+8VtmGdBcR4v03FbvNZoKgX/HE8Hap0n5Ioii7rfDan7ltqBJQ==,iv:Y+2OUjSfoKChs9bNPuN0nYcmM4x5EGZysia+nmBLXKY=,tag:wPDSHBwU6UVJCD3I3dZ7Zw==,type:str]",
+	"sops": {
+		"kms": null,
+		"gcp_kms": [
+			{
+				"resource_id": "projects/salamlab-production/locations/global/keyRings/terraform-sops-keyring/cryptoKeys/terraform-sops-key",
+				"created_at": "2022-03-16T22:03:48Z",
+				"enc": "CiQAMNfpcYYIaXPf+bb1UIm1aTfH9RTue7ltN8LuuJnhszsOKP8SSQBwO4ZQxpKKVzHFoK/l/7pYfg+NhBTc1BjMUyy0qObEm/CsDlX3c/Nq7NQvgL83C2wkQoLUBdAt3E1gvVsHGOHSdD5dmljoLkY="
+			}
+		],
+		"azure_kv": null,
+		"lastmodified": "2022-03-16T22:05:13Z",
+		"mac": "ENC[AES256_GCM,data:M4W9eVEeaM13MAgFgW5J3erepLV4QuSxiPNlB2OQl5yOfVRQn7S6F/jTXlYYp+8q7PxWCtuwTM9I0eEIAqpi3xcZwAS9cLG+43hcdBfGASmEOUFntju5p9EbSGviENT0nWThhD8NP7ASoOmR20EHTv62EW3NlcJ2q1ABdt0e0+M=,iv:nhehRx5c+dBVkro16j2nvQj4Mm3BNH8eMKKjBQ1qw/0=,tag:ZkvlmcKAGIPhX/MKYfJndQ==,type:str]",
+		"pgp": null,
+		"unencrypted_suffix": "_unencrypted",
+		"version": "3.5.0"
+	}
+}

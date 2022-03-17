@@ -63,3 +63,16 @@ Steps:
 3. `gcloud auth application-default login`, select your kok account
 4. `sops env/dev/apartments-db-creds.enc.json` – this will print the username and password
 5. Connect your db browser (psql/jetbrains/dbeaver/…) to `127.0.0.1:5432` and use the creds from step 4.
+
+## Troubleshooting
+
+### Just applying this code in an empty project does not work
+Unfortunately there's a mess of dependencies between resources that are not expressed in terraform, and
+not always can.
+
+To work around that we could look into adding stages to the deployment, you'd set stage to 0, apply, set
+stage to 1, apply etc. See #52.
+
+### Endpoint calls inexplicably return 403
+Check cloud run instance logs for `PERMISSION_DENIED:Calling Google Service Control API failed with: 403 and body`.
+If you see that, you need to enable the `Service Control API`. See #51.
