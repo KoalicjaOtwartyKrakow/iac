@@ -42,22 +42,17 @@ resource "google_cloudbuild_trigger" "build-trigger" {
         "REACT_APP_ENV=${var.env_type},"
       ]
     }
-    # upload dummy file if bucket is empty. See https://github.com/GoogleCloudPlatform/gsutil/issues/417 for more explanation
     step {
-      name = "alpine:3.15.0"
-      args = ["touch", "dummy.txt"]
+      name = "gcr.io/google.com/cloudsdktool/cloud-sdk:376.0.0-alpine"
+      args = ["gsutil", "-h", "Cache-Control: no-store", "cp", "-r", "build/*", "${var.frontend_build_bucket_url}"]
     }
     step {
       name = "gcr.io/google.com/cloudsdktool/cloud-sdk:376.0.0-alpine"
-      args = ["gsutil", "cp", "dummy.txt", "${var.frontend_build_bucket_url}"]
+      args = ["gsutil", "-h", "Cache-Control: max-age=31536000, immutable", "cp", "-r", "build/static", "${var.frontend_build_bucket_url}"]
     }
     step {
       name = "gcr.io/google.com/cloudsdktool/cloud-sdk:376.0.0-alpine"
-      args = ["gsutil", "rm", "-rf", "${var.frontend_build_bucket_url}/*"]
-    }
-    step {
-      name = "gcr.io/google.com/cloudsdktool/cloud-sdk:376.0.0-alpine"
-      args = ["gsutil", "cp", "-r", "build/*", "${var.frontend_build_bucket_url}"]
+      args = ["gsutil", "-h", "Cache-Control: max-age=900", "cp", "-r", "build/locales", "${var.frontend_build_bucket_url}"]
     }
 
     available_secrets {
