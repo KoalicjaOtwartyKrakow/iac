@@ -30,7 +30,7 @@ paths:
       description: ""
       operationId: "add_host"
       x-google-backend:
-        address: https://europe-central2-salamlab-development.cloudfunctions.net/add_host
+        address: https://europe-central2-salamlab-production.cloudfunctions.net/add_host
       consumes:
         - "application/json"
       produces:
@@ -54,7 +54,7 @@ paths:
       description: ""
       operationId: "get_all_hosts"
       x-google-backend:
-        address: https://europe-central2-salamlab-development.cloudfunctions.net/get_all_hosts
+        address: https://europe-central2-salamlab-production.cloudfunctions.net/get_all_hosts
       produces:
         - "application/json"
       responses:
@@ -74,7 +74,7 @@ paths:
       description: ""
       operationId: "get_hosts_by_status"
       x-google-backend:
-        address: https://europe-central2-salamlab-development.cloudfunctions.net/get_hosts_by_status
+        address: https://europe-central2-salamlab-production.cloudfunctions.net/get_hosts_by_status
       parameters:
         - in: query
           name: "status"
@@ -103,7 +103,7 @@ paths:
       description: "Returns a single host"
       operationId: "get_host_by_id"
       x-google-backend:
-        address: https://europe-central2-salamlab-development.cloudfunctions.net/get_host_by_id
+        address: https://europe-central2-salamlab-production.cloudfunctions.net/get_host_by_id
       produces:
         - "application/json"
       parameters:
@@ -129,7 +129,7 @@ paths:
       description: ""
       operationId: "update_host"
       x-google-backend:
-        address: https://europe-central2-salamlab-development.cloudfunctions.net/update_host
+        address: https://europe-central2-salamlab-production.cloudfunctions.net/update_host
       consumes:
         - "application/json"
       produces:
@@ -165,7 +165,7 @@ paths:
       description: ""
       operationId: "delete_host"
       x-google-backend:
-        address: https://europe-central2-salamlab-development.cloudfunctions.net/delete_host
+        address: https://europe-central2-salamlab-production.cloudfunctions.net/delete_host
       produces:
         - "application/json"
       parameters:
@@ -192,7 +192,7 @@ paths:
       description: ""
       operationId: "add_accommodation"
       x-google-backend:
-        address: https://europe-central2-salamlab-development.cloudfunctions.net/add_accommodation
+        address: https://europe-central2-salamlab-production.cloudfunctions.net/add_accommodation
       consumes:
         - "application/json"
       produces:
@@ -216,7 +216,7 @@ paths:
       description: ""
       operationId: "get_all_accommodations"
       x-google-backend:
-        address: https://europe-central2-salamlab-development.cloudfunctions.net/get_all_accommodations
+        address: https://europe-central2-salamlab-production.cloudfunctions.net/get_all_accommodations
       produces:
         - "application/json"
       responses:
@@ -234,7 +234,7 @@ paths:
       description: "Returns a single accommodation unit"
       operationId: "get_accommodation_by_id"
       x-google-backend:
-        address: https://europe-central2-salamlab-development.cloudfunctions.net/get_accommodation_by_id
+        address: https://europe-central2-salamlab-production.cloudfunctions.net/get_accommodation_by_id
       produces:
         - "application/json"
       parameters:
@@ -260,7 +260,7 @@ paths:
       description: ""
       operationId: "update_accommodation"
       x-google-backend:
-        address: https://europe-central2-salamlab-development.cloudfunctions.net/update_accommodation
+        address: https://europe-central2-salamlab-production.cloudfunctions.net/update_accommodation
       consumes:
         - "application/json"
       produces:
@@ -296,7 +296,7 @@ paths:
       description: ""
       operationId: "delete_accommodation"
       x-google-backend:
-        address: https://europe-central2-salamlab-development.cloudfunctions.net/delete_accommodation
+        address: https://europe-central2-salamlab-production.cloudfunctions.net/delete_accommodation
       produces:
         - "application/json"
       parameters:
@@ -323,7 +323,7 @@ paths:
       description: ""
       operationId: "add_guest_to_accommodation"
       x-google-backend:
-        address: https://europe-central2-salamlab-development.cloudfunctions.net/add_guest_to_accommodation
+        address: https://europe-central2-salamlab-production.cloudfunctions.net/add_guest_to_accommodation
       consumes:
         - "application/json"
       produces:
@@ -360,7 +360,7 @@ paths:
       description: ""
       operationId: "delete_guest_from_accommodation"
       x-google-backend:
-        address: https://europe-central2-salamlab-development.cloudfunctions.net/delete_guest_from_accommodation
+        address: https://europe-central2-salamlab-production.cloudfunctions.net/delete_guest_from_accommodation
       produces:
         - "application/json"
       parameters:
@@ -393,7 +393,7 @@ paths:
       description: ""
       operationId: "add_guest"
       x-google-backend:
-        address: https://europe-central2-salamlab-development.cloudfunctions.net/add_guest
+        address: https://europe-central2-salamlab-production.cloudfunctions.net/add_guest
       consumes:
         - "application/json"
       produces:
@@ -417,7 +417,7 @@ paths:
       description: ""
       operationId: "get_all_guests"
       x-google-backend:
-        address: https://europe-central2-salamlab-development.cloudfunctions.net/get_all_guests
+        address: https://europe-central2-salamlab-production.cloudfunctions.net/get_all_guests
       produces:
         - "application/json"
       responses:
@@ -435,7 +435,7 @@ paths:
       description: "Returns a single guest"
       operationId: "get_guest_by_id"
       x-google-backend:
-        address: https://europe-central2-salamlab-development.cloudfunctions.net/get_guest_by_id
+        address: https://europe-central2-salamlab-production.cloudfunctions.net/get_guest_by_id
       produces:
         - "application/json"
       parameters:
@@ -461,7 +461,7 @@ paths:
       description: ""
       operationId: "update_guest"
       x-google-backend:
-        address: https://europe-central2-salamlab-development.cloudfunctions.net/update_guest
+        address: https://europe-central2-salamlab-production.cloudfunctions.net/update_guest
       consumes:
         - "application/json"
       produces:
@@ -497,7 +497,7 @@ paths:
       description: ""
       operationId: "delete_guest"
       x-google-backend:
-        address: https://europe-central2-salamlab-development.cloudfunctions.net/delete_guest
+        address: https://europe-central2-salamlab-production.cloudfunctions.net/delete_guest
       produces:
         - "application/json"
       parameters:
@@ -524,7 +524,7 @@ paths:
       description: ""
       operationId: "find_accommodation_for_guest"
       x-google-backend:
-        address: https://europe-central2-salamlab-development.cloudfunctions.net/find_accommodation_for_guest
+        address: https://europe-central2-salamlab-production.cloudfunctions.net/find_accommodation_for_guest
       produces:
         - "application/json"
       parameters:
@@ -551,7 +551,7 @@ paths:
       description: ""
       operationId: "add_teammember"
       x-google-backend:
-        address: https://europe-central2-salamlab-development.cloudfunctions.net/add_teammember
+        address: https://europe-central2-salamlab-production.cloudfunctions.net/add_teammember
       consumes:
         - "application/json"
       produces:
@@ -575,7 +575,7 @@ paths:
       description: ""
       operationId: "get_all_teammembers"
       x-google-backend:
-        address: https://europe-central2-salamlab-development.cloudfunctions.net/get_all_teammembers
+        address: https://europe-central2-salamlab-production.cloudfunctions.net/get_all_teammembers
       produces:
         - "application/json"
       responses:
@@ -593,7 +593,7 @@ paths:
       description: "Returns a single teammember"
       operationId: "get_teammember_by_id"
       x-google-backend:
-        address: https://europe-central2-salamlab-development.cloudfunctions.net/get_teammember_by_id
+        address: https://europe-central2-salamlab-production.cloudfunctions.net/get_teammember_by_id
       produces:
         - "application/json"
       parameters:
@@ -619,7 +619,7 @@ paths:
       description: ""
       operationId: "update_teammember"
       x-google-backend:
-        address: https://europe-central2-salamlab-development.cloudfunctions.net/update_teammember
+        address: https://europe-central2-salamlab-production.cloudfunctions.net/update_teammember
       consumes:
         - "application/json"
       produces:
@@ -655,7 +655,7 @@ paths:
       description: ""
       operationId: "delete_teammember"
       x-google-backend:
-        address: https://europe-central2-salamlab-development.cloudfunctions.net/delete_teammember
+        address: https://europe-central2-salamlab-production.cloudfunctions.net/delete_teammember
       produces:
         - "application/json"
       parameters:
