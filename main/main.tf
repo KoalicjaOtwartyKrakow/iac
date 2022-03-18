@@ -6,6 +6,12 @@ module "terraform-sops" {
   source = "../modules/terraform-sops"
 }
 
+module "sentry_creds" {
+  source = "../modules/secrets-from-file"
+
+  creds_path = var.sentry_creds_path
+}
+
 module "dns" {
   source = "../modules/dns"
 

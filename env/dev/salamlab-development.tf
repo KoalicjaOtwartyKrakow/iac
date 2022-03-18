@@ -49,6 +49,8 @@ module "main" {
   # Do NOT change "dev" to something else, the frontend code depends on this value.
   env_type = "dev"
 
+  sentry_creds_path = "sentry-creds.enc.json"
+
   dns_zone_name = "apartments-dev.r3.salamlab.pl"
 
   # See the comment inside `google_cloud_run_service`
