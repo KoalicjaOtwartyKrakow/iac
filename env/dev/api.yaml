@@ -895,13 +895,10 @@ definitions:
         type: "integer"
       adultFemaleCount:
         type: "integer"
-      children:
+      childrenAges:
         type: "array"
         items:
-          type: "object"
-          properties:
-            age:
-              type: "integer"
+          type: "integer"
       havePets:
         type: "boolean"
       petsDescription:
