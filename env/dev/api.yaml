@@ -122,7 +122,7 @@ paths:
           description: "Invalid ID supplied"
         "404":
           description: "Host not found"
-    post:
+    put:
       tags:
         - "host"
       summary: "Updates a host in the database"
@@ -253,7 +253,7 @@ paths:
           description: "Invalid ID supplied"
         "404":
           description: "Accommodation Unit not found"
-    post:
+    put:
       tags:
         - "accommodation"
       summary: "Updates an accommodation unit"
@@ -454,7 +454,7 @@ paths:
           description: "Invalid ID supplied"
         "404":
           description: "Guest not found"
-    post:
+    put:
       tags:
         - "guest"
       summary: "Updates a guest in the database"
@@ -612,7 +612,7 @@ paths:
           description: "Invalid ID supplied"
         "404":
           description: "Teammember not found"
-    post:
+    put:
       tags:
         - "teammember"
       summary: "Updates a teammember in the database"
