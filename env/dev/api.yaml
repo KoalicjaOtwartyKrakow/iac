@@ -700,13 +700,20 @@ definitions:
       Phone number, can include optional national prefix `+48`. Triplets may be separated by
       `-`, ` ` or `.`.
   Language:
-    type: "string"
-    enum:
-      - "En"
-      - "Pl"
-      - "Uk"
-      - "Ru"
-    description: "2 letter ISO-639-1 compliant code"
+    type: "object"
+    properties:
+      code2:
+        type: "string"
+        example: "pl"
+        description: "2 letter ISO-639-1 compliant code"
+      code3:
+        type: "string"
+        example: "pol"
+        description: "3 letter ISO-639-2 compliant code"
+      name:
+        type: "string"
+        example: "Polski"
+        description: "Name of the language in native form."
 
   HostCreate:
     type: "object"
@@ -766,20 +773,20 @@ definitions:
   Voivodeship:
     type: "string"
     enum:
-      - "DOLNOŚLĄSKIE"
-      - "KUJAWSKO-POMORSKIE"
+      - "DOLNOSLASKIE"
+      - "KUJAWSKOPOMORSKIE"
       - "LUBELSKIE"
       - "LUBUSKIE"
-      - "ŁÓDZKIE"
-      - "MAŁOPOLSKIE"
+      - "LODZKIE"
+      - "MALOPOLSKIE"
       - "MAZOWIECKIE"
       - "OPOLSKIE"
       - "PODKARPACKIE"
       - "PODLASKIE"
       - "POMORSKIE"
-      - "ŚLĄSKIE"
-      - "ŚWIĘTOKRZYSKIE"
-      - "WARMIŃSKO-MAZURSKIE"
+      - "SLASKIE"
+      - "SWIETOKRZYSKIE"
+      - "WARMINSKOMAZURSKIE"
       - "WIELKOPOLSKIE"
       - "ZACHODNIOPOMORSKIE"
 
