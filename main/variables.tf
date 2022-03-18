@@ -20,6 +20,12 @@ variable "env_type" {
   }
 }
 
+variable "sentry_creds_path" {
+  type        = string
+  description = "Path to sops-encrypted json with sentry secrets"
+  nullable    = false
+}
+
 variable "dns_zone_name" {
   type     = string
   nullable = false

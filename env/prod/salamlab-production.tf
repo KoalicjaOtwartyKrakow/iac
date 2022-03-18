@@ -48,6 +48,8 @@ module "main" {
 
   env_type = "prod"
 
+  sentry_creds_path = "sentry-creds.enc.json"
+
   dns_zone_name = "apartments.r3.salamlab.pl"
 
   # See the comment inside `google_cloud_run_service`
