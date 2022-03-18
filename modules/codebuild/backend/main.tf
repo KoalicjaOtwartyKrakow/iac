@@ -17,7 +17,7 @@ locals {
     "get_all_hosts",
     "delete_host",
     "update_host",
-    "create_host",
+    "add_host",
     "get_host_by_id",
     "get_hosts_by_status",
   ])
