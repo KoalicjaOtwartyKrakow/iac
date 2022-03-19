@@ -47,3 +47,20 @@ module "codebuild_backend" {
   backend_github_repo_name   = var.backend_github_repo_name
   backend_github_repo_branch = var.backend_github_repo_branch
 }
+
+# We can't have multiple builds of the same type running, especially backend. Trying to deploy a function that is
+# already being deployed fails the build. Unfortunately cloud build does not support such functionality.
+#
+# As a workaround, we limit the number of concurrent builds across all build types to 1. We only have two build types
+# per project, so this should not hurt that much.
+#
+# https://stackoverflow.com/a/63120998
+resource "google_service_usage_consumer_quota_override" "cloud-build-1-build-at-a-time" {
+  provider       = google-beta
+  project        = var.gcp_project
+  service        = "cloudbuild.googleapis.com"
+  metric         = urlencode("cloudbuild.googleapis.com/ongoing_builds")
+  limit          = urlencode("/project")
+  override_value = "1"
+  force          = true
+}
