@@ -620,7 +620,7 @@ definitions:
       - $ref: "#/definitions/HostUpdate"
       - type: "object"
         properties:
-          id:
+          guid:
             type: "string"
             format: "uuid"
           createdAt:
@@ -715,7 +715,7 @@ definitions:
       - $ref: "#/definitions/AccommodationUnitUpdate"
       - type: "object"
         properties:
-          id:
+          guid:
             type: "string"
             format: "uuid"
           host:
@@ -815,7 +815,7 @@ definitions:
       - $ref: "#/definitions/GuestUpdate"
       - type: "object"
         properties:
-          id:
+          guid:
             type: "string"
             format: "uuid"
           createdAt:
