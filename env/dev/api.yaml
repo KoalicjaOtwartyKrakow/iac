@@ -191,7 +191,7 @@ paths:
           schema:
             type: "array"
             items:
-              $ref: "#/definitions/AccommodationUnitFull"
+              $ref: "#/definitions/AccommodationUnit"
     get:
       tags:
         - "accommodation"
@@ -208,7 +208,7 @@ paths:
           schema:
             type: "array"
             items:
-              $ref: "#/definitions/AccommodationUnitFull"
+              $ref: "#/definitions/AccommodationUnit"
   /accommodation/{accommodationId}:
     get:
       tags:
@@ -231,7 +231,7 @@ paths:
         "200":
           description: "successful operation"
           schema:
-            $ref: "#/definitions/AccommodationUnitFull"
+            $ref: "#/definitions/AccommodationUnit"
         "400":
           description: "Invalid ID supplied"
         "404":
@@ -265,7 +265,7 @@ paths:
         "200":
           description: "successful operation"
           schema:
-            $ref: "#/definitions/AccommodationUnitFull"
+            $ref: "#/definitions/AccommodationUnit"
         "400":
           description: "Invalid ID supplied"
         "404":
@@ -383,7 +383,7 @@ paths:
           schema:
             type: "array"
             items:
-              $ref: "#/definitions/GuestFull"
+              $ref: "#/definitions/Guest"
     get:
       tags:
         - "guest"
@@ -400,7 +400,7 @@ paths:
           schema:
             type: "array"
             items:
-              $ref: "#/definitions/GuestFull"
+              $ref: "#/definitions/Guest"
   /guest/{guestId}:
     get:
       tags:
@@ -423,7 +423,7 @@ paths:
         "200":
           description: "successful operation"
           schema:
-            $ref: "#/definitions/GuestFull"
+            $ref: "#/definitions/Guest"
         "400":
           description: "Invalid ID supplied"
         "404":
@@ -457,7 +457,7 @@ paths:
         "200":
           description: "successful operation"
           schema:
-            $ref: "#/definitions/GuestFull"
+            $ref: "#/definitions/Guest"
         "400":
           description: "Invalid ID supplied"
         "404":
@@ -510,7 +510,7 @@ paths:
           schema:
             type: "array"
             items:
-              $ref: "#/definitions/AccommodationUnitFull"
+              $ref: "#/definitions/AccommodationUnit"
         "400":
           description: "Invalid status value"
 
@@ -705,11 +705,6 @@ definitions:
           updatedAt:
             type: "string"
             format: "date-time"
-  AccommodationUnitFull:
-    allOf:
-      - $ref: "#/definitions/AccommodationUnit"
-      - type: "object"
-        properties:
           systemComments:
             type: "string"
           guests:
@@ -805,11 +800,6 @@ definitions:
           updatedAt:
             type: "string"
             format: "date-time"
-  GuestFull:
-    allOf:
-      - $ref: "#/definitions/Guest"
-      - type: "object"
-        properties:
           systemComments:
             type: "string"
           accommodationUnit:
