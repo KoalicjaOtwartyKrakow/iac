@@ -727,6 +727,10 @@ definitions:
         format: "email"
       phoneNumber:
         $ref: "#/definitions/PhoneNumber"
+      isAgent:
+        type: "boolean"
+      documentNumber:
+        type: "string"
       peopleInGroup:
         type: "integer"
       adultMaleCount:
