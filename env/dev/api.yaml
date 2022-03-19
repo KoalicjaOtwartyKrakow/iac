@@ -152,10 +152,6 @@ paths:
       produces:
         - "application/json"
       parameters:
-        - name: "api_key"
-          in: "header"
-          required: false
-          type: "string"
         - name: "hostId"
           in: "path"
           description: "Host id to delete"
@@ -287,10 +283,6 @@ paths:
       produces:
         - "application/json"
       parameters:
-        - name: "api_key"
-          in: "header"
-          required: false
-          type: "string"
         - name: "accommodationId"
           in: "path"
           description: "Accommodation Unit id to delete"
@@ -302,7 +294,7 @@ paths:
           description: "Invalid ID supplied"
         "404":
           description: "Accommodation Unit not found"
-  /accommodation/{accommodationId}/guest:
+  /accommodation/{accommodationId}/guest/{guestId}:
     post:
       tags:
         - "accommodation"
@@ -311,39 +303,32 @@ paths:
       operationId: "add_guest_to_accommodation"
       x-google-backend:
         address: https://europe-central2-salamlab-development.cloudfunctions.net/add_guest_to_accommodation
-      consumes:
-        - "application/json"
       produces:
         - "application/json"
       parameters:
         - name: "accommodationId"
           in: "path"
-          description: "ID of host that needs to be updated"
+          description: "ID of accommodation to be linked"
           required: true
           type: "string"
           format: "uuid"
-        - in: "body"
-          name: "body"
-          description: "Host information that needs to be updated in the database"
+        - name: "guestId"
+          in: "path"
+          description: "ID of the guest to be linked"
           required: true
-          schema:
-            $ref: "#/definitions/AccommodationUnitUpdate"
+          type: "string"
+          format: "uuid"
       responses:
-        "200":
+        "204":
           description: "successful operation"
-          schema:
-            $ref: "#/definitions/AccommodationUnitFull"
         "400":
-          description: "Invalid ID supplied"
+          description: "Invalid UUID format supplied"
         "404":
-          description: "Accommodation Unit not found"
-        "405":
-          description: "Invalid input"
-  /accommodation/{accommodationId}/guest/{guestId}:
+          description: "Accommodation Unit or Guest not found"
     delete:
       tags:
         - "accommodation"
-      summary: "Deletes an Accommodation Unit"
+      summary: "Remove guest from accommodation unit"
       description: ""
       operationId: "delete_guest_from_accommodation"
       x-google-backend:
@@ -351,10 +336,6 @@ paths:
       produces:
         - "application/json"
       parameters:
-        - name: "api_key"
-          in: "header"
-          required: false
-          type: "string"
         - name: "accommodationId"
           in: "path"
           description: "Accommodation Unit to delete a guest from"
@@ -368,10 +349,12 @@ paths:
           type: "string"
           format: "uuid"
       responses:
+        # XXX(mlazowik): 204 is used even if the guest-accommodation link does not exist, such behavior was requested
+        #  by frontend (Argasek)
+        "204":
+          description: "Deleted successfully OR guest-accommodation link not found"
         "400":
-          description: "Invalid ID supplied"
-        "404":
-          description: "Guest not found"
+          description: "Invalid UUID format supplied"
   /guest:
     post:
       tags:
@@ -492,10 +475,6 @@ paths:
       produces:
         - "application/json"
       parameters:
-        - name: "api_key"
-          in: "header"
-          required: false
-          type: "string"
         - name: "guestId"
           in: "path"
           description: "Guest id to delete"
