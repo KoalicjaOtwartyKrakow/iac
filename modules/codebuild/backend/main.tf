@@ -71,6 +71,10 @@ resource "google_cloudbuild_trigger" "build-trigger" {
     }
 
     logs_bucket = module.backend_log_bucket.url
+
+    options {
+      machine_type = "E2_HIGHCPU_8"
+    }
   }
 }
 
