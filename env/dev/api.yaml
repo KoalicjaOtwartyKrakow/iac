@@ -765,12 +765,14 @@ definitions:
       priorityStatus:
         type: "string"
         enum:
+          - "does_not_respond"
           - "accommodation_not_needed"
+          - "en_route_ua"
+          - "en_route_pl"
+          - "in_krk"
+          - "at_r3"
           - "accommodation_found"
-          - "en_route_ukraine"
-          - "en_route_poland"
-          - "in_krakow"
-          - "in_crisis_point"
+          - "updated"
       priorityDate:
         type: "string"
         format: "date"
