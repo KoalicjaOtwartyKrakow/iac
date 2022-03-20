@@ -1,6 +1,19 @@
+terraform {
+  required_providers {
+    sops = {
+      source  = "carlpett/sops"
+      version = "~> 0.6.3"
+    }
+  }
+}
+
 locals {
   frontend_codebuild_name = "${var.gcp_project}-build-fronted"
   frontend_bucket_name    = "${var.gcp_project}-codebuild-fronted-logs"
+}
+
+data "sops_file" "sentry_creds" {
+  source_file = var.sentry_creds_path
 }
 
 resource "google_cloudbuild_trigger" "build-trigger" {
@@ -41,6 +54,8 @@ resource "google_cloudbuild_trigger" "build-trigger" {
         "PUBLIC_URL=/",
         "REACT_APP_KOKON_API_USE_MOCKS=false",
         "REACT_APP_ENV=${var.env_type}",
+        "REACT_APP_SENTRY_DSN=${data.sops_file.sentry_creds.data["sentry_frontend_dsn"]}",
+        "REACT_APP_SENTRY_TRACES_SAMPLE_RATE=${data.sops_file.sentry_creds.data["sentry_frontend_traces_sample_rate"]}",
       ]
     }
     step {

@@ -54,6 +54,8 @@ module "codebuild" {
   gcp_project = var.gcp_project
   region      = var.region
 
+  sentry_creds_path = var.sentry_creds_path
+
   github_repo_owner           = var.github_repo_owner
   frontend_github_repo_name   = var.frontend_github_repo_name
   frontend_github_repo_branch = var.frontend_github_repo_branch
