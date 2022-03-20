@@ -9,7 +9,7 @@ info:
   license:
     name: "Apache 2.0"
     url: "http://www.apache.org/licenses/LICENSE-2.0.html"
-host: "api-36b5kwvwaq-lm.a.run.app"
+host: "api-lrkrxtdxwa-lm.a.run.app"
 tags:
   - name: "host"
     description: "Information about the hosts"
@@ -17,8 +17,6 @@ tags:
     description: "Information about the accommodation units"
   - name: "guest"
     description: "Information about the guests"
-  - name: "teammember"
-    description: "Information about the team members"
 schemes:
   - "https"
 paths:
@@ -43,18 +41,32 @@ paths:
           schema:
             $ref: "#/definitions/HostCreate"
       responses:
-        "405":
+        "422":
           description: "Invalid input"
         "201":
           description: "Created"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Host"
     get:
       tags:
         - "host"
       summary: "Get all hosts"
-      description: ""
+      description: "Retrieve all hosts. If `status` filter is applied, only hosts with matching verification status will be returned."
       operationId: "get_all_hosts"
       x-google-backend:
         address: https://europe-central2-salamlab-production.cloudfunctions.net/get_all_hosts
+      parameters:
+        - in: query
+          name: "status"
+          type: "string"
+          description: "Verification status of the Host"
+          required: false
+          enum:
+            - "CREATED"
+            - "VERIFIED"
+            - "REJECTED"
       produces:
         - "application/json"
       responses:
@@ -62,35 +74,6 @@ paths:
           description: "Invalid status supplied"
         "200":
           description: "Ok. If no host found, empty array will be returned."
-          schema:
-            type: "array"
-            items:
-              $ref: "#/definitions/Host"
-  /host/findByStatus:
-    get:
-      tags:
-        - "host"
-      summary: "Get hosts with status"
-      description: ""
-      operationId: "get_hosts_by_status"
-      x-google-backend:
-        address: https://europe-central2-salamlab-production.cloudfunctions.net/get_hosts_by_status
-      parameters:
-        - in: query
-          name: "status"
-          type: "string"
-          description: "Verification status of the Host"
-          required: true
-          enum:
-            - "created"
-            - "verified"
-            - "rejected"
-
-      produces:
-        - "application/json"
-      responses:
-        "200":
-          description: "Ok"
           schema:
             type: "array"
             items:
@@ -122,7 +105,7 @@ paths:
           description: "Invalid ID supplied"
         "404":
           description: "Host not found"
-    post:
+    put:
       tags:
         - "host"
       summary: "Updates a host in the database"
@@ -156,7 +139,7 @@ paths:
           description: "Invalid ID supplied"
         "404":
           description: "Host not found"
-        "405":
+        "422":
           description: "Invalid input"
     delete:
       tags:
@@ -169,10 +152,6 @@ paths:
       produces:
         - "application/json"
       parameters:
-        - name: "api_key"
-          in: "header"
-          required: false
-          type: "string"
         - name: "hostId"
           in: "path"
           description: "Host id to delete"
@@ -183,7 +162,7 @@ paths:
         "400":
           description: "Invalid ID supplied"
         "404":
-          description: "Pet not found"
+          description: "Host not found"
   /accommodation:
     post:
       tags:
@@ -205,10 +184,14 @@ paths:
           schema:
             $ref: "#/definitions/AccommodationUnitCreate"
       responses:
-        "405":
+        "422":
           description: "Invalid input"
         "201":
           description: "Created"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/AccommodationUnit"
     get:
       tags:
         - "accommodation"
@@ -225,7 +208,7 @@ paths:
           schema:
             type: "array"
             items:
-              $ref: "#/definitions/AccommodationUnitFull"
+              $ref: "#/definitions/AccommodationUnit"
   /accommodation/{accommodationId}:
     get:
       tags:
@@ -248,12 +231,12 @@ paths:
         "200":
           description: "successful operation"
           schema:
-            $ref: "#/definitions/AccommodationUnitFull"
+            $ref: "#/definitions/AccommodationUnit"
         "400":
           description: "Invalid ID supplied"
         "404":
           description: "Accommodation Unit not found"
-    post:
+    put:
       tags:
         - "accommodation"
       summary: "Updates an accommodation unit"
@@ -282,12 +265,12 @@ paths:
         "200":
           description: "successful operation"
           schema:
-            $ref: "#/definitions/AccommodationUnitFull"
+            $ref: "#/definitions/AccommodationUnit"
         "400":
           description: "Invalid ID supplied"
         "404":
           description: "Accommodation Unit not found"
-        "405":
+        "422":
           description: "Invalid input"
     delete:
       tags:
@@ -300,10 +283,6 @@ paths:
       produces:
         - "application/json"
       parameters:
-        - name: "api_key"
-          in: "header"
-          required: false
-          type: "string"
         - name: "accommodationId"
           in: "path"
           description: "Accommodation Unit id to delete"
@@ -314,77 +293,7 @@ paths:
         "400":
           description: "Invalid ID supplied"
         "404":
-          description: "Pet not found"
-  /accommodation/{accommodationId}/guest:
-    post:
-      tags:
-        - "accommodation"
-      summary: "Add guest to accommodation unit"
-      description: ""
-      operationId: "add_guest_to_accommodation"
-      x-google-backend:
-        address: https://europe-central2-salamlab-production.cloudfunctions.net/add_guest_to_accommodation
-      consumes:
-        - "application/json"
-      produces:
-        - "application/json"
-      parameters:
-        - name: "accommodationId"
-          in: "path"
-          description: "ID of host that needs to be updated"
-          required: true
-          type: "string"
-          format: "uuid"
-        - in: "body"
-          name: "body"
-          description: "Host information that needs to be updated in the database"
-          required: true
-          schema:
-            $ref: "#/definitions/AccommodationUnitUpdate"
-      responses:
-        "200":
-          description: "successful operation"
-          schema:
-            $ref: "#/definitions/AccommodationUnit"
-        "400":
-          description: "Invalid ID supplied"
-        "404":
           description: "Accommodation Unit not found"
-        "405":
-          description: "Invalid input"
-  /accommodation/{accommodationId}/guest/{guestId}:
-    delete:
-      tags:
-        - "accommodation"
-      summary: "Deletes an Accommodation Unit"
-      description: ""
-      operationId: "delete_guest_from_accommodation"
-      x-google-backend:
-        address: https://europe-central2-salamlab-production.cloudfunctions.net/delete_guest_from_accommodation
-      produces:
-        - "application/json"
-      parameters:
-        - name: "api_key"
-          in: "header"
-          required: false
-          type: "string"
-        - name: "accommodationId"
-          in: "path"
-          description: "Accommodation Unit to delete a guest from"
-          required: true
-          type: "string"
-          format: "uuid"
-        - name: "guestId"
-          in: "path"
-          description: "Guest id to delete"
-          required: true
-          type: "string"
-          format: "uuid"
-      responses:
-        "400":
-          description: "Invalid ID supplied"
-        "404":
-          description: "Pet not found"
   /guest:
     post:
       tags:
@@ -406,10 +315,14 @@ paths:
           schema:
             $ref: "#/definitions/GuestCreate"
       responses:
-        "405":
+        "422":
           description: "Invalid input"
         "201":
           description: "Created"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Guest"
     get:
       tags:
         - "guest"
@@ -426,7 +339,7 @@ paths:
           schema:
             type: "array"
             items:
-              $ref: "#/definitions/GuestFull"
+              $ref: "#/definitions/Guest"
   /guest/{guestId}:
     get:
       tags:
@@ -449,12 +362,12 @@ paths:
         "200":
           description: "successful operation"
           schema:
-            $ref: "#/definitions/GuestFull"
+            $ref: "#/definitions/Guest"
         "400":
           description: "Invalid ID supplied"
         "404":
           description: "Guest not found"
-    post:
+    put:
       tags:
         - "guest"
       summary: "Updates a guest in the database"
@@ -483,12 +396,12 @@ paths:
         "200":
           description: "successful operation"
           schema:
-            $ref: "#/definitions/GuestFull"
+            $ref: "#/definitions/Guest"
         "400":
           description: "Invalid ID supplied"
         "404":
           description: "Guest not found"
-        "405":
+        "422":
           description: "Invalid input"
     delete:
       tags:
@@ -501,10 +414,6 @@ paths:
       produces:
         - "application/json"
       parameters:
-        - name: "api_key"
-          in: "header"
-          required: false
-          type: "string"
         - name: "guestId"
           in: "path"
           description: "Guest id to delete"
@@ -515,7 +424,7 @@ paths:
         "400":
           description: "Invalid ID supplied"
         "404":
-          description: "Pet not found"
+          description: "Guest not found"
   /guest/{guestId}/accommodations:
     get:
       tags:
@@ -543,137 +452,6 @@ paths:
               $ref: "#/definitions/AccommodationUnit"
         "400":
           description: "Invalid status value"
-  /teammember:
-    post:
-      tags:
-        - "teammember"
-      summary: "Add new teammember"
-      description: ""
-      operationId: "add_teammember"
-      x-google-backend:
-        address: https://europe-central2-salamlab-production.cloudfunctions.net/add_teammember
-      consumes:
-        - "application/json"
-      produces:
-        - "application/json"
-      parameters:
-        - in: "body"
-          name: "body"
-          description: "Teammember object that needs to be added to the database"
-          required: true
-          schema:
-            $ref: "#/definitions/TeamMemberCreate"
-      responses:
-        "405":
-          description: "Invalid input"
-        "201":
-          description: "Created"
-    get:
-      tags:
-        - "teammember"
-      summary: "Get all teammembers"
-      description: ""
-      operationId: "get_all_teammembers"
-      x-google-backend:
-        address: https://europe-central2-salamlab-production.cloudfunctions.net/get_all_teammembers
-      produces:
-        - "application/json"
-      responses:
-        "201":
-          description: "Ok. If not found, empty array will be returned."
-          schema:
-            type: "array"
-            items:
-              $ref: "#/definitions/TeamMember"
-  /teammember/{teammemberId}:
-    get:
-      tags:
-        - "teammember"
-      summary: "Find teammember by ID"
-      description: "Returns a single teammember"
-      operationId: "get_teammember_by_id"
-      x-google-backend:
-        address: https://europe-central2-salamlab-production.cloudfunctions.net/get_teammember_by_id
-      produces:
-        - "application/json"
-      parameters:
-        - name: "teammemberId"
-          in: "path"
-          description: "ID of teammember to return"
-          required: true
-          type: "string"
-          format: "uuid"
-      responses:
-        "200":
-          description: "successful operation"
-          schema:
-            $ref: "#/definitions/TeamMember"
-        "400":
-          description: "Invalid ID supplied"
-        "404":
-          description: "Teammember not found"
-    post:
-      tags:
-        - "teammember"
-      summary: "Updates a teammember in the database"
-      description: ""
-      operationId: "update_teammember"
-      x-google-backend:
-        address: https://europe-central2-salamlab-production.cloudfunctions.net/update_teammember
-      consumes:
-        - "application/json"
-      produces:
-        - "application/json"
-      parameters:
-        - name: "teammemberId"
-          in: "path"
-          description: "ID of teammember that needs to be updated"
-          required: true
-          type: "string"
-          format: "uuid"
-        - in: "body"
-          name: "body"
-          description: "Teammember information that needs to be updated in the database"
-          required: true
-          schema:
-            $ref: "#/definitions/TeamMemberUpdate"
-      responses:
-        "200":
-          description: "successful operation"
-          schema:
-            $ref: "#/definitions/TeamMember"
-        "400":
-          description: "Invalid ID supplied"
-        "404":
-          description: "Teammember not found"
-        "405":
-          description: "Invalid input"
-    delete:
-      tags:
-        - "teammember"
-      summary: "Deletes a teammember"
-      description: ""
-      operationId: "delete_teammember"
-      x-google-backend:
-        address: https://europe-central2-salamlab-production.cloudfunctions.net/delete_teammember
-      produces:
-        - "application/json"
-      parameters:
-        - name: "api_key"
-          in: "header"
-          required: false
-          type: "string"
-        - name: "teammemberId"
-          in: "path"
-          description: "Teammember id to delete"
-          required: true
-          type: "string"
-          format: "uuid"
-      responses:
-        "400":
-          description: "Invalid ID supplied"
-        "404":
-          description: "Pet not found"
 
 securityDefinitions:
   google_kok_id_token:
@@ -700,13 +478,20 @@ definitions:
       Phone number, can include optional national prefix `+48`. Triplets may be separated by
       `-`, ` ` or `.`.
   Language:
-    type: "string"
-    enum:
-      - "En"
-      - "Pl"
-      - "Uk"
-      - "Ru"
-    description: "2 letter ISO-639-1 compliant code"
+    type: "object"
+    properties:
+      code2:
+        type: "string"
+        example: "pl"
+        description: "2 letter ISO-639-1 compliant code"
+      code3:
+        type: "string"
+        example: "pol"
+        description: "3 letter ISO-639-2 compliant code"
+      name:
+        type: "string"
+        example: "Polski"
+        description: "Name of the language in native form."
 
   HostCreate:
     type: "object"
@@ -744,16 +529,16 @@ definitions:
             type: "string"
             description: "Verification status of the Host"
             enum:
-              - "created"
-              - "verified"
-              - "rejected"
+              - "CREATED"
+              - "VERIFIED"
+              - "REJECTED"
 
   Host:
     allOf:
       - $ref: "#/definitions/HostUpdate"
       - type: "object"
         properties:
-          id:
+          guid:
             type: "string"
             format: "uuid"
           createdAt:
@@ -762,24 +547,26 @@ definitions:
           updatedAt:
             type: "string"
             format: "date-time"
+          systemComments:
+            type: "string"
 
   Voivodeship:
     type: "string"
     enum:
-      - "DOLNOŚLĄSKIE"
-      - "KUJAWSKO-POMORSKIE"
+      - "DOLNOSLASKIE"
+      - "KUJAWSKOPOMORSKIE"
       - "LUBELSKIE"
       - "LUBUSKIE"
-      - "ŁÓDZKIE"
-      - "MAŁOPOLSKIE"
+      - "LODZKIE"
+      - "MALOPOLSKIE"
       - "MAZOWIECKIE"
       - "OPOLSKIE"
       - "PODKARPACKIE"
       - "PODLASKIE"
       - "POMORSKIE"
-      - "ŚLĄSKIE"
-      - "ŚWIĘTOKRZYSKIE"
-      - "WARMIŃSKO-MAZURSKIE"
+      - "SLASKIE"
+      - "SWIETOKRZYSKIE"
+      - "WARMINSKOMAZURSKIE"
       - "WIELKOPOLSKIE"
       - "ZACHODNIOPOMORSKIE"
 
@@ -833,11 +620,11 @@ definitions:
             type: "integer"
           status:
             type: "string"
-            description: "Verification status of the Host"
+            description: "Verification status of the Accommodation Unit"
             enum:
-              - "created"
-              - "verified"
-              - "rejected"
+              - "CREATED"
+              - "VERIFIED"
+              - "REJECTED"
           staffComments:
             type: "string"
 
@@ -846,7 +633,7 @@ definitions:
       - $ref: "#/definitions/AccommodationUnitUpdate"
       - type: "object"
         properties:
-          id:
+          guid:
             type: "string"
             format: "uuid"
           host:
@@ -857,11 +644,8 @@ definitions:
           updatedAt:
             type: "string"
             format: "date-time"
-  AccommodationUnitFull:
-    allOf:
-      - $ref: "#/definitions/AccommodationUnit"
-      - type: "object"
-        properties:
+          systemComments:
+            type: "string"
           guests:
             type: "array"
             items:
@@ -882,19 +666,20 @@ definitions:
         format: "email"
       phoneNumber:
         $ref: "#/definitions/PhoneNumber"
+      isAgent:
+        type: "boolean"
+      documentNumber:
+        type: "string"
       peopleInGroup:
         type: "integer"
       adultMaleCount:
         type: "integer"
       adultFemaleCount:
         type: "integer"
-      children:
+      childrenAges:
         type: "array"
         items:
-          type: "object"
-          properties:
-            age:
-              type: "integer"
+          type: "integer"
       havePets:
         type: "boolean"
       petsDescription:
@@ -918,12 +703,14 @@ definitions:
       priorityStatus:
         type: "string"
         enum:
-          - "accommodation_not_needed"
-          - "accommodation_found"
-          - "en_route_ukraine"
-          - "en_route_poland"
-          - "in_krakow"
-          - "in_crisis_point"
+          - "DOES_NOT_RESPOND"
+          - "ACCOMMODATION_NOT_NEEDED"
+          - "EN_ROUTE_UA"
+          - "EN_ROUTE_PL"
+          - "IN_KRK"
+          - "AT_R3"
+          - "ACCOMMODATION_FOUND"
+          - "UPDATED"
       priorityDate:
         type: "string"
         format: "date"
@@ -934,18 +721,24 @@ definitions:
       - $ref: "#/definitions/GuestCreate"
       - type: "object"
         properties:
+          accommodationUnitId:
+            type: "string"
+            format: "uuid"
+            description: "Accommodation Unit to assign given guest too, or null to unassign"
+          staffComments:
+            type: "string"
           verificationStatus:
             type: "string"
             enum:
-              - "created"
-              - "verified"
-              - "rejected"
+              - "CREATED"
+              - "VERIFIED"
+              - "REJECTED"
   Guest:
     allOf:
       - $ref: "#/definitions/GuestUpdate"
       - type: "object"
         properties:
-          id:
+          guid:
             type: "string"
             format: "uuid"
           createdAt:
@@ -954,34 +747,7 @@ definitions:
           updatedAt:
             type: "string"
             format: "date-time"
-  GuestFull:
-    allOf:
-      - $ref: "#/definitions/Guest"
-      - type: "object"
-        properties:
+          systemComments:
+            type: "string"
           accommodationUnit:
             $ref: "#/definitions/AccommodationUnit"
-
-  TeamMemberCreate:
-    type: "object"
-    required:
-      - "fullName"
-      - "phoneNumber"
-    properties:
-      fullName:
-        type: "string"
-        example: "Cecylia Łukaszyk"
-      phoneNumber:
-        $ref: "#/definitions/PhoneNumber"
-
-  TeamMemberUpdate:
-    $ref: "#/definitions/TeamMemberCreate"
-
-  TeamMember:
-    allOf:
-      - $ref: "#/definitions/TeamMemberUpdate"
-      - type: "object"
-        properties:
-          id:
-            type: "string"
-            format: "uuid"
