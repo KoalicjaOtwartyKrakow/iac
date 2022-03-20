@@ -49,6 +49,34 @@ resource "google_cloudbuild_trigger" "build-trigger" {
   }
 
   build {
+    step {
+      id         = "migrate"
+      name       = "python:3.9"
+      entrypoint = "/bin/sh"
+      args = [
+        "-c",
+        trimspace(
+          <<-EOT
+          wget "https://storage.googleapis.com/cloudsql-proxy/$$${CLOUD_SQL_PROXY_VERSION}/cloud_sql_proxy.linux.amd64" -O cloud_sql_proxy &&
+          chmod +x cloud_sql_proxy &&
+          pip install -r requirements.txt &&
+          ./cloud_sql_proxy -instances=$$${INSTANCE_CONNECTION_NAME}=tcp:5432 & sleep 2 &&
+          alembic upgrade head
+          EOT
+        )
+      ]
+      secret_env = [
+        "db_name",
+        "db_user",
+        "db_pass",
+        "INSTANCE_CONNECTION_NAME",
+      ]
+      env = [
+        "IS_LOCAL_DB=True",
+        "CLOUD_SQL_PROXY_VERSION=v1.21.0"
+      ]
+    }
+
     dynamic "step" {
       for_each = local.cloud_functions
       content {
@@ -65,7 +93,26 @@ resource "google_cloudbuild_trigger" "build-trigger" {
           "--set-env-vars=PROJECT_ID=${local.project_id}"
         ]
 
-        wait_for = ["-"] # The "-" applied to all steps means that they will run in parallel.
+        wait_for = ["migrate"] # The "migrate" applied to all steps means that they will run in parallel, after migrate.
+      }
+    }
+
+    available_secrets {
+      secret_manager {
+        env          = "db_name"
+        version_name = "projects/${var.gcp_project}/secrets/db_name/versions/latest"
+      }
+      secret_manager {
+        env          = "db_pass"
+        version_name = "projects/${var.gcp_project}/secrets/db_pass/versions/latest"
+      }
+      secret_manager {
+        env          = "db_user"
+        version_name = "projects/${var.gcp_project}/secrets/db_user/versions/latest"
+      }
+      secret_manager {
+        env          = "INSTANCE_CONNECTION_NAME"
+        version_name = "projects/${var.gcp_project}/secrets/instance_connection_name/versions/latest"
       }
     }
 
