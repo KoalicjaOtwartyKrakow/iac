@@ -294,67 +294,6 @@ paths:
           description: "Invalid ID supplied"
         "404":
           description: "Accommodation Unit not found"
-  /accommodation/{accommodationId}/guest/{guestId}:
-    post:
-      tags:
-        - "accommodation"
-      summary: "Add guest to accommodation unit"
-      description: ""
-      operationId: "add_guest_to_accommodation"
-      x-google-backend:
-        address: https://europe-central2-salamlab-development.cloudfunctions.net/add_guest_to_accommodation
-      produces:
-        - "application/json"
-      parameters:
-        - name: "accommodationId"
-          in: "path"
-          description: "ID of accommodation to be linked"
-          required: true
-          type: "string"
-          format: "uuid"
-        - name: "guestId"
-          in: "path"
-          description: "ID of the guest to be linked"
-          required: true
-          type: "string"
-          format: "uuid"
-      responses:
-        "204":
-          description: "successful operation"
-        "400":
-          description: "Invalid UUID format supplied"
-        "404":
-          description: "Accommodation Unit or Guest not found"
-    delete:
-      tags:
-        - "accommodation"
-      summary: "Remove guest from accommodation unit"
-      description: ""
-      operationId: "delete_guest_from_accommodation"
-      x-google-backend:
-        address: https://europe-central2-salamlab-development.cloudfunctions.net/delete_guest_from_accommodation
-      produces:
-        - "application/json"
-      parameters:
-        - name: "accommodationId"
-          in: "path"
-          description: "Accommodation Unit to delete a guest from"
-          required: true
-          type: "string"
-          format: "uuid"
-        - name: "guestId"
-          in: "path"
-          description: "Guest id to delete"
-          required: true
-          type: "string"
-          format: "uuid"
-      responses:
-        # XXX(mlazowik): 204 is used even if the guest-accommodation link does not exist, such behavior was requested
-        #  by frontend (Argasek)
-        "204":
-          description: "Deleted successfully OR guest-accommodation link not found"
-        "400":
-          description: "Invalid UUID format supplied"
   /guest:
     post:
       tags:
@@ -782,6 +721,10 @@ definitions:
       - $ref: "#/definitions/GuestCreate"
       - type: "object"
         properties:
+          accommodationUnitId:
+            type: "string"
+            format: "uuid"
+            description: "Accommodation Unit to assign given guest too, or null to unassign"
           staffComments:
             type: "string"
           verificationStatus:
