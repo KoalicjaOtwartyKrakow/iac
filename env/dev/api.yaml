@@ -64,9 +64,9 @@ paths:
           description: "Verification status of the Host"
           required: false
           enum:
-            - "created"
-            - "verified"
-            - "rejected"
+            - "CREATED"
+            - "VERIFIED"
+            - "REJECTED"
       produces:
         - "application/json"
       responses:
@@ -590,9 +590,9 @@ definitions:
             type: "string"
             description: "Verification status of the Host"
             enum:
-              - "created"
-              - "verified"
-              - "rejected"
+              - "CREATED"
+              - "VERIFIED"
+              - "REJECTED"
 
   Host:
     allOf:
@@ -683,9 +683,9 @@ definitions:
             type: "string"
             description: "Verification status of the Accommodation Unit"
             enum:
-              - "created"
-              - "verified"
-              - "rejected"
+              - "CREATED"
+              - "VERIFIED"
+              - "REJECTED"
           staffComments:
             type: "string"
 
@@ -764,14 +764,14 @@ definitions:
       priorityStatus:
         type: "string"
         enum:
-          - "does_not_respond"
-          - "accommodation_not_needed"
-          - "en_route_ua"
-          - "en_route_pl"
-          - "in_krk"
-          - "at_r3"
-          - "accommodation_found"
-          - "updated"
+          - "DOES_NOT_RESPOND"
+          - "ACCOMMODATION_NOT_NEEDED"
+          - "EN_ROUTE_UA"
+          - "EN_ROUTE_PL"
+          - "IN_KRK"
+          - "AT_R3"
+          - "ACCOMMODATION_FOUND"
+          - "UPDATED"
       priorityDate:
         type: "string"
         format: "date"
@@ -787,9 +787,9 @@ definitions:
           verificationStatus:
             type: "string"
             enum:
-              - "created"
-              - "verified"
-              - "rejected"
+              - "CREATED"
+              - "VERIFIED"
+              - "REJECTED"
   Guest:
     allOf:
       - $ref: "#/definitions/GuestUpdate"
