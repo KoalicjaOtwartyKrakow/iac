@@ -29,6 +29,8 @@ module "codebuild_frontend" {
   region          = var.region
   service_account = google_service_account.cloudbuild_service_account.id
 
+  sentry_creds_path = var.sentry_creds_path
+
   github_repo_owner           = var.github_repo_owner
   frontend_github_repo_name   = var.frontend_github_repo_name
   frontend_github_repo_branch = var.frontend_github_repo_branch
