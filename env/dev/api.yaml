@@ -41,7 +41,7 @@ paths:
           schema:
             $ref: "#/definitions/HostCreate"
       responses:
-        "405":
+        "422":
           description: "Invalid input"
         "201":
           description: "Created"
@@ -139,7 +139,7 @@ paths:
           description: "Invalid ID supplied"
         "404":
           description: "Host not found"
-        "405":
+        "422":
           description: "Invalid input"
     delete:
       tags:
@@ -184,7 +184,7 @@ paths:
           schema:
             $ref: "#/definitions/AccommodationUnitCreate"
       responses:
-        "405":
+        "422":
           description: "Invalid input"
         "201":
           description: "Created"
@@ -270,7 +270,7 @@ paths:
           description: "Invalid ID supplied"
         "404":
           description: "Accommodation Unit not found"
-        "405":
+        "422":
           description: "Invalid input"
     delete:
       tags:
@@ -376,7 +376,7 @@ paths:
           schema:
             $ref: "#/definitions/GuestCreate"
       responses:
-        "405":
+        "422":
           description: "Invalid input"
         "201":
           description: "Created"
@@ -462,7 +462,7 @@ paths:
           description: "Invalid ID supplied"
         "404":
           description: "Guest not found"
-        "405":
+        "422":
           description: "Invalid input"
     delete:
       tags:
