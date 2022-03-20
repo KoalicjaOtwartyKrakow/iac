@@ -461,9 +461,26 @@ securityDefinitions:
     x-google-issuer: "https://accounts.google.com"
     x-google-jwks_uri: "https://www.googleapis.com/oauth2/v3/certs"
     x-google-audiences: "1089860096133-2iffpbk6su292ec43tjo26t4rb3gjg5i.apps.googleusercontent.com"
+  # Temporary, for the mobile app to be able to reach real backend for testing, before we get proper authn & authz
+  # in place.
+  #
+  # To get a key:
+  # * go to https://console.cloud.google.com/apis/library/api-lrkrxtdxwa-lm.a.run.app?project=salamlab-development
+  # * (notice that the `host` field of the openapi spec is in the url)
+  # * enable if not enabled
+  # * switch to the credentials tab
+  # * click "create credentials"
+  # * copy and save the key in your password manager
+  # * click "edit key" to enable restrictions
+  # * under "API restrictions" select only "SalamLab API"
+  api_key:
+    type: "apiKey"
+    name: "x-api-key"
+    in: "header" # In header, not GET params. In GET perams it's more likely to get logged in a random place.
 
 security:
   - google_kok_id_token: []
+  - api_key: [] # !!! Do NOT copy to prod !!!
 
 definitions:
   Time:
