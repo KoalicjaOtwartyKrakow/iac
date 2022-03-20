@@ -452,6 +452,478 @@ paths:
               $ref: "#/definitions/AccommodationUnit"
         "400":
           description: "Invalid status value"
+  # XXX(mlazowik): what follows is a duplicate of all the endpoints from above, prefxed with /mobile. The only reason
+  #  is to support different auth scheme (api key).
+  #
+  #  > ESP doesn't support alternative (logical OR) security requirements when one of the security schemes is an API key.
+  #
+  #  https://cloud.google.com/endpoints/docs/openapi/openapi-limitations#security_requirements_containing_an_api_key
+  #
+  # DO NOT COPY THIS WHOLE SECTION TO PROD api.yaml
+  /mobile/host:
+    post:
+      tags:
+        - "host"
+      summary: "Add new host"
+      description: ""
+      operationId: "mobile_add_host"
+      x-google-backend:
+        address: https://europe-central2-salamlab-development.cloudfunctions.net/add_host
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      security:
+        - api_key: [ ] # !!! Do NOT copy to prod !!!
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "Host object that needs to be added to the database"
+          required: true
+          schema:
+            $ref: "#/definitions/HostCreate"
+      responses:
+        "422":
+          description: "Invalid input"
+        "201":
+          description: "Created"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Host"
+    get:
+      tags:
+        - "host"
+      summary: "Get all hosts"
+      description: "Retrieve all hosts. If `status` filter is applied, only hosts with matching verification status will be returned."
+      operationId: "mobile_get_all_hosts"
+      x-google-backend:
+        address: https://europe-central2-salamlab-development.cloudfunctions.net/get_all_hosts
+      security:
+        - api_key: [ ] # !!! Do NOT copy to prod !!!
+      parameters:
+        - in: query
+          name: "status"
+          type: "string"
+          description: "Verification status of the Host"
+          required: false
+          enum:
+            - "CREATED"
+            - "VERIFIED"
+            - "REJECTED"
+      produces:
+        - "application/json"
+      responses:
+        "400":
+          description: "Invalid status supplied"
+        "200":
+          description: "Ok. If no host found, empty array will be returned."
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Host"
+  /mobile/host/{hostId}:
+    get:
+      tags:
+        - "host"
+      summary: "Find host by ID"
+      description: "Returns a single host"
+      operationId: "mobile_get_host_by_id"
+      x-google-backend:
+        address: https://europe-central2-salamlab-development.cloudfunctions.net/get_host_by_id
+      produces:
+        - "application/json"
+      security:
+        - api_key: [ ] # !!! Do NOT copy to prod !!!
+      parameters:
+        - name: "hostId"
+          in: "path"
+          description: "ID of host to return"
+          required: true
+          type: "string"
+          format: "uuid"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Host"
+        "400":
+          description: "Invalid ID supplied"
+        "404":
+          description: "Host not found"
+    put:
+      tags:
+        - "host"
+      summary: "Updates a host in the database"
+      description: ""
+      operationId: "mobile_update_host"
+      x-google-backend:
+        address: https://europe-central2-salamlab-development.cloudfunctions.net/update_host
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      security:
+        - api_key: [ ] # !!! Do NOT copy to prod !!!
+      parameters:
+        - name: "hostId"
+          in: "path"
+          description: "ID of host that needs to be updated"
+          required: true
+          type: "string"
+          format: "uuid"
+        - in: "body"
+          name: "body"
+          description: "Host information that needs to be updated in the database"
+          required: true
+          schema:
+            $ref: "#/definitions/HostUpdate"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Host"
+        "400":
+          description: "Invalid ID supplied"
+        "404":
+          description: "Host not found"
+        "422":
+          description: "Invalid input"
+    delete:
+      tags:
+        - "host"
+      summary: "Deletes a host"
+      description: ""
+      operationId: "mobile_delete_host"
+      x-google-backend:
+        address: https://europe-central2-salamlab-development.cloudfunctions.net/delete_host
+      produces:
+        - "application/json"
+      security:
+        - api_key: [ ] # !!! Do NOT copy to prod !!!
+      parameters:
+        - name: "hostId"
+          in: "path"
+          description: "Host id to delete"
+          required: true
+          type: "string"
+          format: "uuid"
+      responses:
+        "400":
+          description: "Invalid ID supplied"
+        "404":
+          description: "Host not found"
+  /mobile/accommodation:
+    post:
+      tags:
+        - "accommodation"
+      summary: "Add new accommodation unit"
+      description: ""
+      operationId: "mobile_add_accommodation"
+      x-google-backend:
+        address: https://europe-central2-salamlab-development.cloudfunctions.net/add_accommodation
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      security:
+        - api_key: [ ] # !!! Do NOT copy to prod !!!
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "Accommodation Unit object that needs to be added to the database"
+          required: true
+          schema:
+            $ref: "#/definitions/AccommodationUnitCreate"
+      responses:
+        "422":
+          description: "Invalid input"
+        "201":
+          description: "Created"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/AccommodationUnit"
+    get:
+      tags:
+        - "accommodation"
+      summary: "Get all accommodation units"
+      description: ""
+      operationId: "mobile_get_all_accommodations"
+      x-google-backend:
+        address: https://europe-central2-salamlab-development.cloudfunctions.net/get_all_accommodations
+      produces:
+        - "application/json"
+      security:
+        - api_key: [ ] # !!! Do NOT copy to prod !!!
+      responses:
+        "200":
+          description: "Ok"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/AccommodationUnit"
+  /mobile/accommodation/{accommodationId}:
+    get:
+      tags:
+        - "accommodation"
+      summary: "Find accommodation unit by ID"
+      description: "Returns a single accommodation unit"
+      operationId: "mobile_get_accommodation_by_id"
+      x-google-backend:
+        address: https://europe-central2-salamlab-development.cloudfunctions.net/get_accommodation_by_id
+      produces:
+        - "application/json"
+      security:
+        - api_key: [ ] # !!! Do NOT copy to prod !!!
+      parameters:
+        - name: "accommodationId"
+          in: "path"
+          description: "ID of accommodation to return"
+          required: true
+          type: "string"
+          format: "uuid"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/AccommodationUnit"
+        "400":
+          description: "Invalid ID supplied"
+        "404":
+          description: "Accommodation Unit not found"
+    put:
+      tags:
+        - "accommodation"
+      summary: "Updates an accommodation unit"
+      description: ""
+      operationId: "mobile_update_accommodation"
+      x-google-backend:
+        address: https://europe-central2-salamlab-development.cloudfunctions.net/update_accommodation
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      security:
+        - api_key: [ ] # !!! Do NOT copy to prod !!!
+      parameters:
+        - name: "accommodationId"
+          in: "path"
+          description: "ID of host that needs to be updated"
+          required: true
+          type: "string"
+          format: "uuid"
+        - in: "body"
+          name: "body"
+          description: "Host information that needs to be updated in the database"
+          required: true
+          schema:
+            $ref: "#/definitions/AccommodationUnitUpdate"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/AccommodationUnit"
+        "400":
+          description: "Invalid ID supplied"
+        "404":
+          description: "Accommodation Unit not found"
+        "422":
+          description: "Invalid input"
+    delete:
+      tags:
+        - "accommodation"
+      summary: "Deletes an Accommodation Unit"
+      description: ""
+      operationId: "mobile_delete_accommodation"
+      x-google-backend:
+        address: https://europe-central2-salamlab-development.cloudfunctions.net/delete_accommodation
+      produces:
+        - "application/json"
+      security:
+        - api_key: [ ] # !!! Do NOT copy to prod !!!
+      parameters:
+        - name: "accommodationId"
+          in: "path"
+          description: "Accommodation Unit id to delete"
+          required: true
+          type: "string"
+          format: "uuid"
+      responses:
+        "400":
+          description: "Invalid ID supplied"
+        "404":
+          description: "Accommodation Unit not found"
+  /mobile/guest:
+    post:
+      tags:
+        - "guest"
+      summary: "Add new guest"
+      description: ""
+      operationId: "mobile_add_guest"
+      x-google-backend:
+        address: https://europe-central2-salamlab-development.cloudfunctions.net/add_guest
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      security:
+        - api_key: [ ] # !!! Do NOT copy to prod !!!
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "Guest object that needs to be added to the database"
+          required: true
+          schema:
+            $ref: "#/definitions/GuestCreate"
+      responses:
+        "422":
+          description: "Invalid input"
+        "201":
+          description: "Created"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Guest"
+    get:
+      tags:
+        - "guest"
+      summary: "Get all guests"
+      description: ""
+      operationId: "mobile_get_all_guests"
+      x-google-backend:
+        address: https://europe-central2-salamlab-development.cloudfunctions.net/get_all_guests
+      produces:
+        - "application/json"
+      security:
+        - api_key: [ ] # !!! Do NOT copy to prod !!!
+      responses:
+        "200":
+          description: "Ok. If not found, empty array will be returned."
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Guest"
+  /mobile/guest/{guestId}:
+    get:
+      tags:
+        - "guest"
+      summary: "Find guest by ID"
+      description: "Returns a single guest"
+      operationId: "mobile_get_guest_by_id"
+      x-google-backend:
+        address: https://europe-central2-salamlab-development.cloudfunctions.net/get_guest_by_id
+      produces:
+        - "application/json"
+      security:
+        - api_key: [ ] # !!! Do NOT copy to prod !!!
+      parameters:
+        - name: "guestId"
+          in: "path"
+          description: "ID of guest to return"
+          required: true
+          type: "string"
+          format: "uuid"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Guest"
+        "400":
+          description: "Invalid ID supplied"
+        "404":
+          description: "Guest not found"
+    put:
+      tags:
+        - "guest"
+      summary: "Updates a guest in the database"
+      description: ""
+      operationId: "mobile_update_guest"
+      x-google-backend:
+        address: https://europe-central2-salamlab-development.cloudfunctions.net/update_guest
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      security:
+        - api_key: [ ] # !!! Do NOT copy to prod !!!
+      parameters:
+        - name: "guestId"
+          in: "path"
+          description: "ID of guest that needs to be updated"
+          required: true
+          type: "string"
+          format: "uuid"
+        - in: "body"
+          name: "body"
+          description: "Guest information that needs to be updated in the database"
+          required: true
+          schema:
+            $ref: "#/definitions/GuestUpdate"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Guest"
+        "400":
+          description: "Invalid ID supplied"
+        "404":
+          description: "Guest not found"
+        "422":
+          description: "Invalid input"
+    delete:
+      tags:
+        - "guest"
+      summary: "Deletes a guest"
+      description: ""
+      operationId: "mobile_delete_guest"
+      x-google-backend:
+        address: https://europe-central2-salamlab-development.cloudfunctions.net/delete_guest
+      produces:
+        - "application/json"
+      security:
+        - api_key: [ ] # !!! Do NOT copy to prod !!!
+      parameters:
+        - name: "guestId"
+          in: "path"
+          description: "Guest id to delete"
+          required: true
+          type: "string"
+          format: "uuid"
+      responses:
+        "400":
+          description: "Invalid ID supplied"
+        "404":
+          description: "Guest not found"
+  /mobile/guest/{guestId}/accommodations:
+    get:
+      tags:
+        - "guest"
+      summary: "Finds accommodation matching this guests needs"
+      description: ""
+      operationId: "mobile_find_accommodation_for_guest"
+      x-google-backend:
+        address: https://europe-central2-salamlab-development.cloudfunctions.net/find_accommodation_for_guest
+      produces:
+        - "application/json"
+      security:
+        - api_key: [ ] # !!! Do NOT copy to prod !!!
+      parameters:
+        - name: "guestId"
+          in: "path"
+          description: "ID of guest to find accommodation for"
+          required: true
+          type: "string"
+          format: "uuid"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/AccommodationUnit"
+        "400":
+          description: "Invalid status value"
 
 securityDefinitions:
   google_kok_id_token:
@@ -480,7 +952,6 @@ securityDefinitions:
 
 security:
   - google_kok_id_token: []
-  - api_key: [] # !!! Do NOT copy to prod !!!
 
 definitions:
   Time:
