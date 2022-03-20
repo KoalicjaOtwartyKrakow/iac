@@ -9,7 +9,7 @@ info:
   license:
     name: "Apache 2.0"
     url: "http://www.apache.org/licenses/LICENSE-2.0.html"
-host: "api-lrkrxtdxwa-lm.a.run.app"
+host: "api-36b5kwvwaq-lm.a.run.app"
 tags:
   - name: "host"
     description: "Information about the hosts"
