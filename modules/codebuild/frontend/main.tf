@@ -30,7 +30,7 @@ resource "google_cloudbuild_trigger" "build-trigger" {
 
   build {
     step {
-      name       = "node:14-alpine"
+      name       = "node:16-alpine"
       entrypoint = "/bin/sh"
       args = [
         "-c",
@@ -45,7 +45,7 @@ resource "google_cloudbuild_trigger" "build-trigger" {
       secret_env = ["FONTAWESOME_TOKEN"]
     }
     step {
-      name       = "node:14-alpine"
+      name       = "node:16-alpine"
       entrypoint = "yarn"
       args       = ["run", "build"]
       env = [
