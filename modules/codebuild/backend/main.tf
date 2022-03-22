@@ -19,6 +19,7 @@ locals {
     "update_host",
     "add_host",
     "get_host_by_id",
+    "get_all_users",
   ])
 }
 
