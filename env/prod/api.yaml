@@ -452,6 +452,24 @@ paths:
               $ref: "#/definitions/AccommodationUnit"
         "400":
           description: "Invalid status value"
+  /user:
+    get:
+      tags:
+        - "user"
+      summary: "Get all users"
+      description: ""
+      operationId: "get_all_guests"
+      x-google-backend:
+        address: https://europe-central2-salamlab-development.cloudfunctions.net/get_all_users
+      produces:
+        - "application/json"
+      responses:
+        "200":
+          description: "Ok. If not found, empty array will be returned."
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/User"
 
 securityDefinitions:
   google_kok_id_token:
@@ -751,3 +769,22 @@ definitions:
             type: "string"
           accommodationUnit:
             $ref: "#/definitions/AccommodationUnit"
+          claimedBy:
+            $ref: "#/definitions/User"
+  User:
+    type: "object"
+    properties:
+      guid:
+        type: "string"
+        format: "uuid"
+      givenName:
+        type: "string"
+        example: "John"
+      familyName:
+        type: "string"
+        example: "Doe"
+      email:
+        type: "string"
+        example: "john.doe@example.com"
+      googlePicture:
+        type: "string"
