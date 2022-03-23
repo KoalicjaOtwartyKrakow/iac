@@ -1277,7 +1277,8 @@ definitions:
             type: "string"
           accommodationUnit:
             $ref: "#/definitions/AccommodationUnit"
-
+          claimedBy:
+            $ref: "#/definitions/User"
   User:
     type: "object"
     properties:
