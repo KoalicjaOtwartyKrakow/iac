@@ -1251,6 +1251,10 @@ definitions:
             type: "string"
             format: "uuid"
             description: "Accommodation Unit to assign given guest too, or null to unassign"
+          claimedById:
+            type: "string"
+            format: "uuid"
+            description: "User that is working on given Guest case, or null to unassign"
           staffComments:
             type: "string"
           verificationStatus:
@@ -1279,6 +1283,9 @@ definitions:
             $ref: "#/definitions/AccommodationUnit"
           claimedBy:
             $ref: "#/definitions/User"
+          claimedAt:
+            type: "string"
+            format: "date-time"
   User:
     type: "object"
     properties:
