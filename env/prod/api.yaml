@@ -458,7 +458,7 @@ paths:
         - "user"
       summary: "Get all users"
       description: ""
-      operationId: "get_all_guests"
+      operationId: "get_all_users"
       x-google-backend:
         address: https://europe-central2-salamlab-development.cloudfunctions.net/get_all_users
       produces:
