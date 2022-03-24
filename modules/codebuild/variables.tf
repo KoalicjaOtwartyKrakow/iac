@@ -51,6 +51,11 @@ variable "backend_github_repo_branch" {
   nullable    = false
 }
 
+variable "gsi_client_id" {
+  type     = string
+  nullable = false
+}
+
 variable "env_type" {
   type        = string
   description = "Dev or prod. Dev is less secure, for example backend CORS allows requests from localhost:3000"

@@ -37,7 +37,8 @@ module "codebuild_frontend" {
   frontend_github_repo_branch = var.frontend_github_repo_branch
   frontend_build_bucket_url   = var.frontend_build_bucket_url
 
-  env_type = var.env_type
+  env_type      = var.env_type
+  gsi_client_id = var.gsi_client_id
 }
 
 module "codebuild_backend" {

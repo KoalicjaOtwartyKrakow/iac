@@ -102,6 +102,11 @@ variable "metabase_db_creds_path" {
   nullable    = false
 }
 
+variable "gsi_client_id" {
+  type     = string
+  nullable = false
+}
+
 variable "devs_group_email" {
   type     = string
   nullable = false

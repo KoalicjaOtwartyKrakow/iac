@@ -478,14 +478,14 @@ securityDefinitions:
     type: "oauth2"
     x-google-issuer: "https://accounts.google.com"
     x-google-jwks_uri: "https://www.googleapis.com/oauth2/v3/certs"
-    x-google-audiences: "1089860096133-2iffpbk6su292ec43tjo26t4rb3gjg5i.apps.googleusercontent.com"
+    x-google-audiences: "510426673347-djors3udlj4vkcgf9haio8156bro1981.apps.googleusercontent.com"
   google_kok_id_token_no_proto:
     authorizationUrl: ""
     flow: "implicit"
     type: "oauth2"
     x-google-issuer: "accounts.google.com"
     x-google-jwks_uri: "https://www.googleapis.com/oauth2/v3/certs"
-    x-google-audiences: "1089860096133-2iffpbk6su292ec43tjo26t4rb3gjg5i.apps.googleusercontent.com"
+    x-google-audiences: "510426673347-djors3udlj4vkcgf9haio8156bro1981.apps.googleusercontent.com"
 
 security:
   - google_kok_id_token: []

@@ -46,7 +46,8 @@ module "main" {
 
   devs_group_email = "apartments-devs@koalicjaotwartykrakow.pl"
 
-  env_type = "prod"
+  env_type      = "prod"
+  gsi_client_id = "510426673347-djors3udlj4vkcgf9haio8156bro1981"
 
   sentry_creds_path = "sentry-creds.enc.json"
 

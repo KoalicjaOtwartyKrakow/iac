@@ -64,7 +64,8 @@ module "codebuild" {
   backend_github_repo_name   = var.backend_github_repo_name
   backend_github_repo_branch = var.backend_github_repo_branch
 
-  env_type = var.env_type
+  env_type      = var.env_type
+  gsi_client_id = var.gsi_client_id
 }
 
 module "db" {

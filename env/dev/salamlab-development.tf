@@ -47,7 +47,8 @@ module "main" {
   devs_group_email = "apartments-devs@koalicjaotwartykrakow.pl"
 
   # Do NOT change "dev" to something else, the frontend code depends on this value.
-  env_type = "dev"
+  env_type      = "dev"
+  gsi_client_id = "1089860096133-2iffpbk6su292ec43tjo26t4rb3gjg5i"
 
   sentry_creds_path = "sentry-creds.enc.json"
 
