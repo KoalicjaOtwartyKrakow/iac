@@ -74,10 +74,20 @@ module "db" {
   availability_type      = var.db_availability_type
   retained_backups_count = var.db_retained_backups_count
   db_creds_path          = var.db_creds_path
+  metabase_db_creds_path = var.metabase_db_creds_path
 }
 
 module "iam" {
   source = "../modules/iam"
 
   devs_group_email = var.devs_group_email
+}
+
+module "metabase" {
+  source = "../modules/metabase"
+
+  env_type               = var.env_type
+  gcp_project            = var.gcp_project
+  location               = var.region
+  metabase_db_creds_path = var.metabase_db_creds_path
 }

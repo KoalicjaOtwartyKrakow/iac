@@ -75,6 +75,7 @@ module "main" {
   db_availability_type      = "ZONAL"
   db_retained_backups_count = 7
   db_creds_path             = "apartments-db-creds.enc.json"
+  metabase_db_creds_path    = "metabase-db-creds.enc.json"
 }
 
 output "dns_zone_ns_records" {

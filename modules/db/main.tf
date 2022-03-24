@@ -93,3 +93,24 @@ module "db-creds" {
 
   creds_path = var.db_creds_path
 }
+
+data "sops_file" "metabase-creds" {
+  source_file = var.metabase_db_creds_path
+}
+
+resource "google_sql_database" "metabase" {
+  name     = data.sops_file.metabase-creds.data["metabase_db_name"]
+  instance = google_sql_database_instance.main-v2.name
+}
+
+resource "google_sql_user" "metabase" {
+  name     = data.sops_file.metabase-creds.data["metabase_db_user"]
+  instance = google_sql_database_instance.main-v2.name
+  password = data.sops_file.metabase-creds.data["metabase_db_pass"]
+}
+
+module "metabase-db-creds" {
+  source = "../secrets-from-file"
+
+  creds_path = var.metabase_db_creds_path
+}

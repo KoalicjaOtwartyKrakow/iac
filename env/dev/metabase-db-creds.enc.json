@@ -1,0 +1,22 @@
+{
+	"metabase_db_name": "ENC[AES256_GCM,data:KM8bowGRKp0=,iv:1ha3iSl5FxXBBupcrVAFCZybAvE8ZE3vVpUTKiKH6C4=,tag:NgNbEe+6sAZKyPj4/6bjWQ==,type:str]",
+	"metabase_db_pass": "ENC[AES256_GCM,data:gGseC/pJix8o8kF/t3v2otFttMMZoK7xfw==,iv:HhdlNP1TsPB0eltKKRdRBOitkH+eE0bf34A5n/N17UI=,tag:IwbW7B8AzU8M4f/goE10og==,type:str]",
+	"metabase_db_user": "ENC[AES256_GCM,data:PfCk0f1T248=,iv:Vzx/dST2lCzmMM7Xf0UwZtwoFAlmnq+i48ABYaBli64=,tag:yKn+ZvYKjVDkKpcG7UoZiw==,type:str]",
+	"metabase_instance_connection_name": "ENC[AES256_GCM,data:XRsHDxN1EWgnoeOOvSbRm+jZuGhArgcH/TRLtGvSfUzdiYjIwMz8YO11XB8=,iv:/Nv2GIzTz/Tw4uhDo+kHQVGw35Jo7Nlau9WtMtlCWM8=,tag:WfNWE2R4KMVLKETDaAfNew==,type:str]",
+	"sops": {
+		"kms": null,
+		"gcp_kms": [
+			{
+				"resource_id": "projects/salamlab-development/locations/global/keyRings/terraform-sops-keyring/cryptoKeys/terraform-sops-key",
+				"created_at": "2022-03-13T17:02:50Z",
+				"enc": "CiQApmk15p6QGRQvnmQVgtYxSaqjQfuyrcXqnnqsuQfRy7dSINsSSQDeeIBr3SnAKwpGTH1EKj9rKV8llPTw5v5o6t8rEhjonBd885PCkjN35RnbUUePQUyg6sKJUOJ80ts5yaodAojsBebZ4OiunFU="
+			}
+		],
+		"azure_kv": null,
+		"lastmodified": "2022-03-23T16:56:31Z",
+		"mac": "ENC[AES256_GCM,data:l8ncaYS/W5RJymUcQIs9RSwfieaW33aAcZmn9IMpSU9Pl/lo3dDqfP1s2KTRNEvSYE2a+fvDf3eu4uFUMjQePdRxh/acFab94iceiudd0vlPhl62TO4jhsTcfDVPLADFORJckbtg7RobmXsse70O1YSoPzX3tzCJDfFcjFTzhgM=,iv:PmgZRgF23wOIJlLbqWEfvXT0p3U+D59V8hP2kRfl7ds=,tag:cIQpWyLR1qRasvnTh4Uffw==,type:str]",
+		"pgp": null,
+		"unencrypted_suffix": "_unencrypted",
+		"version": "3.5.0"
+	}
+}
