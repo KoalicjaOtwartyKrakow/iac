@@ -22,11 +22,10 @@ resource "google_cloud_run_service" "metabase" {
       annotations = {
         "autoscaling.knative.dev/minScale"      = "1"
         "autoscaling.knative.dev/maxScale"      = "3"
-        "run.googleapis.com/cloudsql-instances" = data.sops_file.metabase-creds.data["metabase_instance_connection_name"]
+        "run.googleapis.com/cloudsql-instances" = "${data.sops_file.metabase-creds.data["metabase_instance_connection_name"]},${data.sops_file.db-creds.data["instance_connection_name"]}"
         "run.googleapis.com/client-name"        = "terraform"
         "run.googleapis.com/cpu-throttling"     = "false" # Keep CPU always on, required for metabase to work
         "client.knative.dev/user-image"         = "eu.gcr.io/salamlab-development/metabase/metabase:v0.42.2"
-        "run.googleapis.com/ingress"            = "all"
       }
     }
 
@@ -122,6 +121,10 @@ resource "google_project_iam_member" "roles" {
   project  = var.gcp_project
   role     = each.value
   member   = "serviceAccount:${data.google_compute_default_service_account.default.email}"
+}
+
+data "sops_file" "db-creds" {
+  source_file = var.db_creds_path
 }
 
 data "sops_file" "metabase-creds" {

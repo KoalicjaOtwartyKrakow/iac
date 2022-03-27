@@ -21,6 +21,12 @@ variable "env_type" {
   }
 }
 
+variable "db_creds_path" {
+  type        = string
+  description = "Path to sops-encrypted json with db secrets"
+  nullable    = false
+}
+
 variable "metabase_db_creds_path" {
   type        = string
   description = "Path to sops-encrypted json with db secrets"

@@ -4,6 +4,11 @@ terraform {
       source  = "carlpett/sops"
       version = "~> 0.6.3"
     }
+
+    postgresql = {
+      source  = "cyrilgdn/postgresql"
+      version = "~> 1.15.0"
+    }
   }
 }
 
@@ -86,6 +91,29 @@ resource "google_sql_user" "apartments" {
   name     = data.sops_file.apartments-creds.data["db_user"]
   instance = google_sql_database_instance.main-v2.name
   password = data.sops_file.apartments-creds.data["db_pass"]
+}
+
+provider "postgresql" {
+  scheme    = "gcppostgres"
+  host      = google_sql_database_instance.main-v2.connection_name
+  username  = google_sql_user.apartments.name
+  password  = google_sql_user.apartments.password
+  superuser = false
+}
+
+resource "postgresql_role" "apartments_ro" {
+  name     = data.sops_file.apartments-creds.data["db_readonly_user"]
+  login    = true
+  password = data.sops_file.apartments-creds.data["db_readonly_pass"]
+}
+
+resource "postgresql_grant" "apartments_ro" {
+  database    = google_sql_database.apartments.name
+  role        = postgresql_role.apartments_ro.name
+  schema      = "public"
+  object_type = "table"
+  objects     = [] # An empty list (the default) means to grant permissions on all objects of the specified type
+  privileges  = ["SELECT"]
 }
 
 module "db-creds" {

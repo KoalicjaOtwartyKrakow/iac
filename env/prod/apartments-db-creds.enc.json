@@ -4,6 +4,8 @@
 	"db_socket_dir": "ENC[AES256_GCM,data:8VBSRy10D9IT,iv:453aqMkrEwZJyEABvbOmNslmJT7UlzB6YXIyjEas0gg=,tag:DHu9qyNDjRJrtZ95ds0wew==,type:str]",
 	"db_user": "ENC[AES256_GCM,data:EypGfHdSMH7nhw==,iv:/Rbuz4VKSGpISl/W6KUY5rtTDaqIJYlJcN7uFu5Mpus=,tag:u+nAqmPF8rnue+NOK7B74g==,type:str]",
 	"instance_connection_name": "ENC[AES256_GCM,data:VfeiiWtV+8VtmGdBcR4v03FbvNZoKgX/HE8Hap0n5Ioii7rfDan7ltqBJQ==,iv:Y+2OUjSfoKChs9bNPuN0nYcmM4x5EGZysia+nmBLXKY=,tag:wPDSHBwU6UVJCD3I3dZ7Zw==,type:str]",
+	"db_readonly_user": "ENC[AES256_GCM,data:D8g4obcS+XPX6WjKIg==,iv:MDMSrrSUxG8bZvAH9r23r/UIiuaet1oW5tj27MOgANU=,tag:HYYh5T1Ry/pnOQAiBL6buw==,type:str]",
+	"db_readonly_pass": "ENC[AES256_GCM,data:AYLxZ9DVc+QF970ZjJojqW2c8G4=,iv:3WpGezPpE8h0/WseGQKHfSQG6ezSt1L9eVlm7FWNFhU=,tag:fFBmsCk2KrgR+gtLzWcAyg==,type:str]",
 	"sops": {
 		"kms": null,
 		"gcp_kms": [
@@ -14,8 +16,8 @@
 			}
 		],
 		"azure_kv": null,
-		"lastmodified": "2022-03-16T22:05:13Z",
-		"mac": "ENC[AES256_GCM,data:M4W9eVEeaM13MAgFgW5J3erepLV4QuSxiPNlB2OQl5yOfVRQn7S6F/jTXlYYp+8q7PxWCtuwTM9I0eEIAqpi3xcZwAS9cLG+43hcdBfGASmEOUFntju5p9EbSGviENT0nWThhD8NP7ASoOmR20EHTv62EW3NlcJ2q1ABdt0e0+M=,iv:nhehRx5c+dBVkro16j2nvQj4Mm3BNH8eMKKjBQ1qw/0=,tag:ZkvlmcKAGIPhX/MKYfJndQ==,type:str]",
+		"lastmodified": "2022-03-27T13:02:39Z",
+		"mac": "ENC[AES256_GCM,data:WHoPkgXIC8vZ3Qy4WXT+HDRf6kTP+/HdwMv+uV9vF06V/QfX/0rCL3z7UmsoaRJTmGtQsKaVDWEFEns3OmIW4ypT6o7/zlZIapBR+9BJd2ydqCBKdDjxhGKFdnM4glJq61Ybct8/VVmi4rVYskmNUWDpHwQPrsmN0gBr/s/VpXw=,iv:+fopu9xqFKQsxZsCJt80Emr8SrXKe6TrUHhunVaplUo=,tag:QkKBdGUPAvj7OwVcBDY8yw==,type:str]",
 		"pgp": null,
 		"unencrypted_suffix": "_unencrypted",
 		"version": "3.5.0"
