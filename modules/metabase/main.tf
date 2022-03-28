@@ -98,6 +98,18 @@ resource "google_cloud_run_service" "metabase" {
           }
         }
 
+        # TODO(mlazowik): Separate for dev/prod
+        env {
+          name  = "MB_APPLICATION_DB_MAX_CONNECTION_POOL_SIZE"
+          value = 2
+        }
+
+        # TODO(mlazowik): Separate for dev/prod, consider read replicas.
+        env {
+          name  = "MB_JDBC_DATA_WAREHOUSE_MAX_CONNECTION_POOL_SIZE"
+          value = 5
+        }
+
         resources {
           limits = {
             "cpu"    = "1"
