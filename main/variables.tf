@@ -111,3 +111,8 @@ variable "devs_group_email" {
   type     = string
   nullable = false
 }
+
+variable "config_creds_path" {
+  type     = string
+  nullable = false
+}

@@ -74,6 +74,8 @@ module "main" {
   db_retained_backups_count = 7
   db_creds_path             = "apartments-db-creds.enc.json"
   metabase_db_creds_path    = "metabase-db-creds.enc.json"
+
+  config_creds_path = "config-creds.enc.json"
 }
 
 # To be set as the NS records for `dns_zone_name` in the `salamlab-dns` project.

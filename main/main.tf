@@ -12,6 +12,12 @@ module "sentry_creds" {
   creds_path = var.sentry_creds_path
 }
 
+module "config_creds" {
+  source = "../modules/secrets-from-file"
+
+  creds_path = var.config_creds_path
+}
+
 module "dns" {
   source = "../modules/dns"
 
