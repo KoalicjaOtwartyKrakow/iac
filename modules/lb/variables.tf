@@ -20,6 +20,11 @@ variable "functions_endpoint_cloud_run_name" {
   nullable = false
 }
 
+variable "metabase_cloud_run_name" {
+  type     = string
+  nullable = false
+}
+
 variable "region" {
   type     = string
   nullable = false

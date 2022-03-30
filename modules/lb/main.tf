@@ -40,7 +40,8 @@ resource "google_compute_target_https_proxy" "lb" {
   url_map = google_compute_url_map.lb.self_link
 
   ssl_certificates = [
-    google_compute_managed_ssl_certificate.cert1v1.id
+    google_compute_managed_ssl_certificate.cert1v1.id,
+    google_compute_managed_ssl_certificate.cert1v2.id,
   ]
 }
 
@@ -59,6 +60,17 @@ resource "google_compute_managed_ssl_certificate" "cert1v1" {
   }
 }
 
+resource "google_compute_managed_ssl_certificate" "cert1v2" {
+  name = "cert1v2"
+
+  managed {
+    domains = [
+      "${var.dns_zone_name}.",
+      "query.${var.dns_zone_name}.",
+    ]
+  }
+}
+
 resource "google_compute_url_map" "lb" {
   name = "lb"
 
@@ -66,13 +78,17 @@ resource "google_compute_url_map" "lb" {
   default_service = google_compute_backend_bucket.frontend-bucket-backend.self_link
 
   host_rule {
-    # TODO(mlazowik): match the specific domain after we have it
-    hosts        = ["*"]
-    path_matcher = "allpaths"
+    hosts        = [var.dns_zone_name]
+    path_matcher = "app"
+  }
+
+  host_rule {
+    hosts        = ["query.${var.dns_zone_name}"]
+    path_matcher = "metabase"
   }
 
   path_matcher {
-    name            = "allpaths"
+    name            = "app"
     default_service = google_compute_backend_bucket.frontend-bucket-backend.self_link
 
     path_rule {
@@ -85,6 +101,11 @@ resource "google_compute_url_map" "lb" {
         }
       }
     }
+  }
+
+  path_matcher {
+    name            = "metabase"
+    default_service = google_compute_backend_service.metabase.self_link
   }
 }
 
@@ -131,5 +152,29 @@ resource "google_compute_region_network_endpoint_group" "functions" {
 
   cloud_run {
     service = var.functions_endpoint_cloud_run_name
+  }
+}
+
+resource "google_compute_backend_service" "metabase" {
+  name = "metabase"
+
+  custom_response_headers = flatten([
+    "Strict-Transport-Security: max-age=31536000; includeSubDomains",
+  ])
+
+  backend {
+    group = google_compute_region_network_endpoint_group.metabase.id
+  }
+}
+
+resource "google_compute_region_network_endpoint_group" "metabase" {
+  provider = google-beta
+
+  name                  = "metabase"
+  network_endpoint_type = "SERVERLESS"
+  region                = var.region
+
+  cloud_run {
+    service = var.metabase_cloud_run_name
   }
 }

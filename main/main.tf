@@ -34,6 +34,7 @@ module "lb" {
 
   frontend_bucket_name              = module.frontend_www_bucket.name
   functions_endpoint_cloud_run_name = module.endpoints.functions_endpoint_cloud_run_name
+  metabase_cloud_run_name           = module.metabase.metabase_cloud_run_name
 }
 
 module "endpoints" {
