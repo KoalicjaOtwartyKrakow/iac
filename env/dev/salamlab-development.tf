@@ -79,6 +79,10 @@ module "main" {
   metabase_db_creds_path    = "metabase-db-creds.enc.json"
 
   config_creds_path = "config-creds.enc.json"
+
+  accommodations_list_url = "https://query.apartments-dev.r3.salamlab.pl/model/6-accommodations"
+  guests_list_url         = "https://query.apartments-dev.r3.salamlab.pl/model/4-guests"
+  hosts_list_url          = "https://query.apartments-dev.r3.salamlab.pl/model/7-hosts"
 }
 
 output "dns_zone_ns_records" {

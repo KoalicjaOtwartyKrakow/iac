@@ -39,6 +39,10 @@ module "codebuild_frontend" {
 
   env_type      = var.env_type
   gsi_client_id = var.gsi_client_id
+
+  accommodations_list_url = var.accommodations_list_url
+  guests_list_url         = var.guests_list_url
+  hosts_list_url          = var.hosts_list_url
 }
 
 module "codebuild_backend" {

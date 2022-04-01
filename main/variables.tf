@@ -116,3 +116,18 @@ variable "config_creds_path" {
   type     = string
   nullable = false
 }
+
+variable "accommodations_list_url" {
+  type     = string
+  nullable = false
+}
+
+variable "hosts_list_url" {
+  type     = string
+  nullable = false
+}
+
+variable "guests_list_url" {
+  type     = string
+  nullable = false
+}

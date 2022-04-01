@@ -66,3 +66,18 @@ variable "env_type" {
     error_message = "Allowed env types: dev, prod."
   }
 }
+
+variable "accommodations_list_url" {
+  type     = string
+  nullable = false
+}
+
+variable "hosts_list_url" {
+  type     = string
+  nullable = false
+}
+
+variable "guests_list_url" {
+  type     = string
+  nullable = false
+}

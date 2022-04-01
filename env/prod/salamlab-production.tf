@@ -76,6 +76,10 @@ module "main" {
   metabase_db_creds_path    = "metabase-db-creds.enc.json"
 
   config_creds_path = "config-creds.enc.json"
+
+  accommodations_list_url = "https://query.apartments.r3.salamlab.pl/model/1-accommodations"
+  guests_list_url         = "https://query.apartments.r3.salamlab.pl/model/2-guests"
+  hosts_list_url          = "https://query.apartments.r3.salamlab.pl/model/3-hosts"
 }
 
 # To be set as the NS records for `dns_zone_name` in the `salamlab-dns` project.

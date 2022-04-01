@@ -57,6 +57,9 @@ resource "google_cloudbuild_trigger" "build-trigger" {
         "REACT_APP_SENTRY_DSN=${data.sops_file.sentry_creds.data["sentry_frontend_dsn"]}",
         "REACT_APP_SENTRY_TRACES_SAMPLE_RATE=${data.sops_file.sentry_creds.data["sentry_frontend_traces_sample_rate"]}",
         "REACT_APP_KOKON_GSI_CLIENT_ID=${var.gsi_client_id}",
+        "REACT_APP_KOKON_OVERRIDE_ROUTE_ACCOMMODATIONS=${var.accommodations_list_url}",
+        "REACT_APP_KOKON_OVERRIDE_ROUTE_GUESTS=${var.guests_list_url}",
+        "REACT_APP_KOKON_OVERRIDE_ROUTE_HOSTS=${var.hosts_list_url}",
       ]
     }
     step {
