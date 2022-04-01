@@ -460,7 +460,7 @@ paths:
       description: ""
       operationId: "get_all_users"
       x-google-backend:
-        address: https://europe-central2-salamlab-development.cloudfunctions.net/get_all_users
+        address: https://europe-central2-salamlab-production.cloudfunctions.net/get_all_users
       produces:
         - "application/json"
       responses:
