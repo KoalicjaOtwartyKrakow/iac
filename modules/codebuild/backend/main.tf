@@ -3,24 +3,33 @@ locals {
   backend_bucket_name    = "${var.gcp_project}-codebuild-backend-logs"
 
   project_id = data.google_project.project.number
-  cloud_functions = toset([
-    "add_accommodation",
-    "get_all_accommodations",
-    "delete_accommodation",
-    "get_accommodation_by_id",
-    "update_accommodation",
-    "get_all_guests",
-    "add_guest",
-    "get_guest_by_id",
-    "delete_guest",
-    "update_guest",
-    "get_all_hosts",
-    "delete_host",
-    "update_host",
-    "add_host",
-    "get_host_by_id",
-    "get_all_users",
-  ])
+  cloud_functions = {
+    add_accommodation = "256MB",
+    # More RAM == more cpu
+    # See https://cloud.google.com/functions/pricing#compute_time
+    # TODO(mlazowik): revert to less after we add pagination
+    get_all_accommodations  = "4096MB",
+    delete_accommodation    = "256MB",
+    get_accommodation_by_id = "256MB",
+    update_accommodation    = "256MB",
+    # More RAM == more cpu
+    # See https://cloud.google.com/functions/pricing#compute_time
+    # TODO(mlazowik): revert to less after we add pagination
+    get_all_guests  = "4096MB",
+    add_guest       = "256MB",
+    get_guest_by_id = "256MB",
+    delete_guest    = "256MB",
+    update_guest    = "256MB",
+    # More RAM == more cpu
+    # See https://cloud.google.com/functions/pricing#compute_time
+    # TODO(mlazowik): revert to less after we add pagination
+    get_all_hosts  = "4096MB",
+    delete_host    = "256MB",
+    update_host    = "256MB",
+    add_host       = "256MB",
+    get_host_by_id = "256MB",
+    get_all_users  = "256MB",
+  }
 }
 
 data "google_project" "project" {}
@@ -86,7 +95,8 @@ resource "google_cloudbuild_trigger" "build-trigger" {
           "gcloud",
           "functions",
           "deploy",
-          step.value,
+          step.key,
+          "--memory=${step.value}",
           "--region=${var.region}",
           "--source=.",
           "--trigger-http",
