@@ -10,6 +10,19 @@ terraform {
 locals {
   frontend_codebuild_name = "${var.gcp_project}-build-fronted"
   frontend_bucket_name    = "${var.gcp_project}-codebuild-fronted-logs"
+  env = [
+    "REACT_APP_KOKON_API_URL=/api",
+    "REACT_APP_KOKON_ROUTER_BASENAME=/",
+    "PUBLIC_URL=/",
+    "REACT_APP_KOKON_API_USE_MOCKS=false",
+    "REACT_APP_ENV=${var.env_type}",
+    "REACT_APP_SENTRY_DSN=${data.sops_file.sentry_creds.data["sentry_frontend_dsn"]}",
+    "REACT_APP_SENTRY_TRACES_SAMPLE_RATE=${data.sops_file.sentry_creds.data["sentry_frontend_traces_sample_rate"]}",
+    "REACT_APP_KOKON_GSI_CLIENT_ID=${var.gsi_client_id}",
+    "REACT_APP_KOKON_OVERRIDE_ROUTE_ACCOMMODATIONS=${var.accommodations_list_url}",
+    "REACT_APP_KOKON_OVERRIDE_ROUTE_GUESTS=${var.guests_list_url}",
+    "REACT_APP_KOKON_OVERRIDE_ROUTE_HOSTS=${var.hosts_list_url}",
+  ]
 }
 
 data "sops_file" "sentry_creds" {
@@ -48,19 +61,12 @@ resource "google_cloudbuild_trigger" "build-trigger" {
       name       = "node:16-alpine"
       entrypoint = "yarn"
       args       = ["run", "build"]
-      env = [
-        "REACT_APP_KOKON_API_URL=/api",
-        "REACT_APP_KOKON_ROUTER_BASENAME=/",
-        "PUBLIC_URL=/",
-        "REACT_APP_KOKON_API_USE_MOCKS=false",
-        "REACT_APP_ENV=${var.env_type}",
-        "REACT_APP_SENTRY_DSN=${data.sops_file.sentry_creds.data["sentry_frontend_dsn"]}",
-        "REACT_APP_SENTRY_TRACES_SAMPLE_RATE=${data.sops_file.sentry_creds.data["sentry_frontend_traces_sample_rate"]}",
-        "REACT_APP_KOKON_GSI_CLIENT_ID=${var.gsi_client_id}",
-        "REACT_APP_KOKON_OVERRIDE_ROUTE_ACCOMMODATIONS=${var.accommodations_list_url}",
-        "REACT_APP_KOKON_OVERRIDE_ROUTE_GUESTS=${var.guests_list_url}",
-        "REACT_APP_KOKON_OVERRIDE_ROUTE_HOSTS=${var.hosts_list_url}",
-      ]
+      env        = local.env
+    }
+    step {
+      name       = "cypress/base:16.14.2"
+      args       = ["npm", "start", "&", "npm", "run", "cypress"]
+      env        = local.env
     }
     step {
       name = "gcr.io/google.com/cloudsdktool/cloud-sdk:376.0.0-alpine"
