@@ -23,6 +23,11 @@ locals {
     "REACT_APP_KOKON_OVERRIDE_ROUTE_GUESTS=${var.guests_list_url}",
     "REACT_APP_KOKON_OVERRIDE_ROUTE_HOSTS=${var.hosts_list_url}",
   ]
+  google_token_env = [
+    "REACT_APP_GOOGLE_CLIENTID=${data.sops_file.sentry_creds.data["google_client_id"]}",
+    "REACT_APP_GOOGLE_CLIENT_SECRET=${data.sops_file.sentry_creds.data["google_client_secret"]}",
+    "GOOGLE_REFRESH_TOKEN=${data.sops_file.sentry_creds.data["google_refresh_token"]}"
+  ]
 }
 
 data "sops_file" "sentry_creds" {
@@ -44,6 +49,7 @@ resource "google_cloudbuild_trigger" "build-trigger" {
   build {
     step {
       name       = "node:16-alpine"
+      id         = "FontAwsome"
       entrypoint = "/bin/sh"
       args = [
         "-c",
@@ -59,26 +65,45 @@ resource "google_cloudbuild_trigger" "build-trigger" {
     }
     step {
       name       = "node:16-alpine"
+      id         = "Build"
       entrypoint = "yarn"
       args       = ["run", "build"]
       env        = local.env
     }
     step {
+      name     = "gcr.io/google.com/cloudsdktool/cloud-sdk:376.0.0-alpine"
+      id       = "CopyNoCache"
+      args     = ["gsutil", "-m", "-h", "Cache-Control: no-store", "cp", "-r", "build/*", "${var.frontend_build_bucket_url}"]
+      wait_for = ["Build"]
+    }
+    step {
+      name     = "gcr.io/google.com/cloudsdktool/cloud-sdk:376.0.0-alpine"
+      id       = "CopyImmutable"
+      args     = ["gsutil", "-m", "-h", "Cache-Control: max-age=31536000, immutable", "cp", "-r", "build/static", "${var.frontend_build_bucket_url}"]
+      wait_for = ["CopyNoCache"]
+    }
+    step {
+      name     = "gcr.io/google.com/cloudsdktool/cloud-sdk:376.0.0-alpine"
+      id       = "CopyCached"
+      args     = ["gsutil", "-m", "-h", "Cache-Control: max-age=900", "cp", "-r", "build/locales", "${var.frontend_build_bucket_url}"]
+      wait_for = ["CopyNoCache"]
+    }
+    step {
       name       = "cypress/base:16.14.2"
-      args       = ["npm", "start", "&", "npm", "run", "cypress"]
-      env        = local.env
-    }
-    step {
-      name = "gcr.io/google.com/cloudsdktool/cloud-sdk:376.0.0-alpine"
-      args = ["gsutil", "-h", "Cache-Control: no-store", "cp", "-r", "build/*", "${var.frontend_build_bucket_url}"]
-    }
-    step {
-      name = "gcr.io/google.com/cloudsdktool/cloud-sdk:376.0.0-alpine"
-      args = ["gsutil", "-h", "Cache-Control: max-age=31536000, immutable", "cp", "-r", "build/static", "${var.frontend_build_bucket_url}"]
-    }
-    step {
-      name = "gcr.io/google.com/cloudsdktool/cloud-sdk:376.0.0-alpine"
-      args = ["gsutil", "-h", "Cache-Control: max-age=900", "cp", "-r", "build/locales", "${var.frontend_build_bucket_url}"]
+      id         = "TestsE2E"
+      entrypoint = "/bin/sh"
+      args = [
+        "-c",
+        trimspace(
+          <<-EOT
+          npm start &
+          sleep 90s &&
+          npm run cypress
+          EOT
+        )
+      ]
+      env      = concat(local.env, local.google_token_env)
+      wait_for = ["Build"]
     }
 
     available_secrets {
