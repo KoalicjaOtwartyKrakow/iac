@@ -80,6 +80,8 @@ resource "google_cloudbuild_trigger" "build-trigger" {
         "db_user",
         "db_pass",
         "INSTANCE_CONNECTION_NAME",
+        "db_app_user",  # Name of the role to create for the app
+        "db_app_pass"  # Password of the role to create for the app
       ]
       env = [
         "IS_LOCAL_DB=True",
@@ -124,6 +126,14 @@ resource "google_cloudbuild_trigger" "build-trigger" {
       secret_manager {
         env          = "INSTANCE_CONNECTION_NAME"
         version_name = "projects/${var.gcp_project}/secrets/instance_connection_name/versions/latest"
+      }
+      secret_manager {
+        env          = "db_app_user"
+        version_name = "projects/${var.gcp_project}/secrets/db_app_user/versions/latest"
+      }
+      secret_manager {
+        env          = "db_app_pass"
+        version_name = "projects/${var.gcp_project}/secrets/db_app_pass/versions/latest"
       }
     }
 
