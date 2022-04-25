@@ -30,6 +30,19 @@ locals {
     get_host_by_id = "256MB",
     get_all_users  = "256MB",
   }
+
+  cloud_functions_secrets = [
+    "db_name",
+    # TODO(mlazowik): swap to db_app_user when it's confirmed to work
+    "db_user",
+    # TODO(mlazowik): swap to db_app_pass when it's confirmed to work
+    "db_pass",
+    "db_socket_dir",
+    "instance_connection_name",
+    "sentry_dsn",
+    "sentry_traces_sample_rate",
+    "authorized_emails",
+  ]
 }
 
 data "google_project" "project" {}
@@ -40,9 +53,12 @@ data "google_service_account" "appengine-default" {
 
 # TODO(mlazowik): replace with service accounts dedicated to different set of permissions, different accounts assigned
 #  to different functions.
-resource "google_project_iam_member" "appengine-default-secret-accessor" {
+resource "google_secret_manager_secret_iam_member" "appengine-default-secret-accessor" {
+  for_each = toset(local.cloud_functions_secrets)
+
   project = data.google_project.project.id
-  role    = "roles/secretmanager.secretAccessor"
+  secret_id = "projects/${var.gcp_project}/secrets/${each.value}"
+  role = "roles/secretmanager.secretAccessor"
   member  = "serviceAccount:${data.google_service_account.appengine-default.email}"
 }
 
@@ -103,7 +119,19 @@ resource "google_cloudbuild_trigger" "build-trigger" {
           "--source=.",
           "--trigger-http",
           "--runtime=python39",
-          "--set-env-vars=PROJECT_ID=${local.project_id}"
+          "--set-env-vars=PROJECT_ID=${local.project_id}",
+          # This secret binding is done at the runtime, not deployment time. This means that the function service
+          # account does need to have IAM permissions to read those secrets.r
+          "--set-secrets=${join(",", [
+            "db_name=db_name:latest",
+            "db_user=db_user:latest",
+            "db_pass=db_pass:latest",
+            "db_socket_dir=db_socket_dir:latest",
+            "instance_connection_name=instance_connection_name:latest",
+            "sentry_dsn=sentry_dsn:latest",
+            "sentry_traces_sample_rate=sentry_traces_sample_rate:latest",
+            "authorized_emails=authorized_emails:latest",
+          ])}",
         ]
 
         wait_for = ["migrate"] # The "migrate" applied to all steps means that they will run in parallel, after migrate.
