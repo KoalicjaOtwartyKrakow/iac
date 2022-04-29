@@ -4,30 +4,18 @@ locals {
 
   project_id = data.google_project.project.number
   cloud_functions = {
-    add_accommodation = "256MB",
     # More RAM == more cpu
     # See https://cloud.google.com/functions/pricing#compute_time
     # TODO(mlazowik): revert to less after we add pagination
-    get_all_accommodations  = "4096MB",
-    delete_accommodation    = "256MB",
-    get_accommodation_by_id = "256MB",
-    update_accommodation    = "256MB",
+    accommodation_function  = "4096MB",
     # More RAM == more cpu
     # See https://cloud.google.com/functions/pricing#compute_time
     # TODO(mlazowik): revert to less after we add pagination
-    get_all_guests  = "4096MB",
-    add_guest       = "256MB",
-    get_guest_by_id = "256MB",
-    delete_guest    = "256MB",
-    update_guest    = "256MB",
+    guest_function  = "4096MB",
     # More RAM == more cpu
     # See https://cloud.google.com/functions/pricing#compute_time
     # TODO(mlazowik): revert to less after we add pagination
-    get_all_hosts  = "4096MB",
-    delete_host    = "256MB",
-    update_host    = "256MB",
-    add_host       = "256MB",
-    get_host_by_id = "256MB",
+    host_function  = "4096MB",
     get_all_users  = "256MB",
   }
 
