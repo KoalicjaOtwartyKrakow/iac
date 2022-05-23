@@ -70,6 +70,9 @@ module "main" {
   # > Don't use them for production instances.
   #
   # https://cloud.google.com/sql/docs/mysql/instance-settings
+  #
+  # That's what Google says, but the price difference just does not justify using the SLA-backend instances, especially
+  # at such low traffic. In practice I have not seen problems with f1/g1 instances, ever.
   db_tier = "db-f1-micro"
   # TODO(https://github.com/KoalicjaOtwartyKrakow/iac/issues/16): potentially set to REGIONAL for prod, pending results
   #  of the uptime goals discussion.

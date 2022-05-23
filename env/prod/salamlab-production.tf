@@ -69,7 +69,10 @@ module "main" {
   # > Don't use them for production instances.
   #
   # https://cloud.google.com/sql/docs/mysql/instance-settings
-  db_tier                   = "db-custom-1-3840"
+  #
+  # That's what Google says, but the price difference just does not justify using the SLA-backend instances, especially
+  # at such low traffic. In practice I have not seen problems with f1/g1 instances, ever.
+  db_tier                   = "db-f1-micro"
   db_availability_type      = "REGIONAL"
   db_retained_backups_count = 7
   db_creds_path             = "apartments-db-creds.enc.json"
